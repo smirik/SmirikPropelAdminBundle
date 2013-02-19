@@ -1,0 +1,11 @@
+table tr th.sortable { cursor: pointer; }
+
+table.propel-admin: { width: auto; }
+td.filterable { padding: 5px 0px 0 5px; }
+td.filterable input.filter_field { height: 80%; margin: 0px; width: 80%; }
+table.propel-admin td input.filter_field.filter-id { width: 30px; }
+table.propel-admin td.ajax_object-action { width: 30px; }
+table.propel-admin td.object-action { width: 50px; }
+
+table.propel-admin td.filter-checkbox, table.propel-admin td.column-id { padding: 5px; width: 20px; text-align: center }
+table.propel-admin th.column-header-id { width: 50px; }

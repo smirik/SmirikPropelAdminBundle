@@ -1,0 +1,11 @@
+<?php
+
+namespace **Controller**\Form\Type;
+
+use **Controller**\Form\Type\Base\**FormName** as BaseForm;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class **FormName** extends BaseForm
+{
+}
+

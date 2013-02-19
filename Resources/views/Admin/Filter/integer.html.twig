@@ -1,0 +1,1 @@
+<input type="number" name="filter[{{ column.name }}]" data-name="{{ column.name }}" class="input-block-level filter-{{ column.name }} filter-{{ column.type }}" {% if filter_raw[column.name] is defined %}value="{{ filter_raw[column.name] }}"{% endif %} />

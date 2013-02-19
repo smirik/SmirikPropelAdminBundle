@@ -1,0 +1,14 @@
+{% include grid.template('list.single_actions') with {'grid': grid, 'routes': routes, 'page': page, 'sort': sort, 'sort_type': sort_type} %}
+
+<table class="table table-striped table-condensed table-bordered propel-admin">
+    {% include grid.template('list.table_header') with {'columns': columns, 'routes': routes, 'page': page, 'sort': sort, 'sort_type': sort_type, 'options': options} %}
+    {% include grid.template('list.table_filters') with {'columns': columns, 'routes': routes, 'page': page, 'sort': sort, 'sort_type': sort_type, 'options': options, 'filter_raw': filter_raw} %}
+    {% for item in collection %}
+        {% include grid.template('row') with { 'item': item, 'columns': columns, 'actions': actions, 'page': page, 'grid': grid, 'options': options } %}
+    {% endfor %}
+
+</table>
+
+{% include grid.template('list.mass_actions') with {'grid': grid} %}
+
+{% include grid.template('list.paginate') with {'routes': routes, 'page': page, 'sort': sort, 'sort_type': sort_type, 'filter': filter, 'options': options, 'collection': collection} %}

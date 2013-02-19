@@ -1,0 +1,24 @@
+admin_propel_index:
+  pattern: /{entity}
+  defaults:  { _controller: admin.abstract.controller:Admin:index.html.twig, page: 1 }
+  requirements:
+      page:  \d+
+  
+admin_propel_index:
+  pattern: /{entity}/{page}
+  defaults:  { _controller: admin.abstract.controller:Admin:index.html.twig, page: 1 }
+  requirements:
+      page:  \d+
+
+admin_propel_edit:
+  pattern: /{entity}/new
+  defaults:  { _controller: admin.abstract.controller:Admin:new.html.twig }
+  
+admin_propel_edit:
+  pattern: /{entity}/{id}/edit
+  defaults:  { _controller: admin.abstract.controller:Admin:edit.html.twig }
+
+admin_propel_delete:
+  pattern: /{entity}/{id}/delete
+  defaults:  { _controller: admin.abstract.controller:Admin:delete.html.twig }
+  

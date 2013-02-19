@@ -1,0 +1,34 @@
+<?php
+
+namespace **Controller**\Controller\Base;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+use Smirik\PropelAdminBundle\Controller\AdminAbstractController as AbstractController;
+
+class Admin**ModelName**Controller extends AbstractController
+{
+	
+	public $layout = '**layout**';
+	public $name   = '**model_prefix**';
+	public $bundle = '**bundle**';
+
+	public function getQuery()
+	{
+		return **Query**::create();
+	}
+	
+	public function getForm()
+	{
+		return new \**Form**;
+	}
+	
+	public function getObject()
+	{
+		return new **Model**;
+	}
+
+}
+

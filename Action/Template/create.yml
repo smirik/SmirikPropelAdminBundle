@@ -1,0 +1,6 @@
+label:   Create
+name:    create
+builder: single
+options:
+    route_with_id: false
+    confirmation: false

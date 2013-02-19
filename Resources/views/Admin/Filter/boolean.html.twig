@@ -1,0 +1,5 @@
+<select name="filter[{{ column.name }}]" class="input-block-level filter_field filter-{{ column.name }}">
+    <option value=""></option>
+    <option value="1" {% if filter_raw[column.name] is defined and filter_raw[column.name] is sameas("1") %}selected{% endif %}>{{ 'choice.yes'|trans }}</option>
+    <option value="0" {% if filter_raw[column.name] is defined and filter_raw[column.name] is sameas("0") %}selected{% endif %}>{{ 'choice.no'|trans }}</option>
+</select>

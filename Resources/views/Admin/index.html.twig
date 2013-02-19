@@ -1,0 +1,38 @@
+{% extends layout %}
+
+{% block content %}
+    <h1>{{ 'List of'|trans }}
+        <small>{{ name|trans }}</small>
+    </h1>
+
+    <div class="row">
+        <div class="span12">
+            <div class="alert-place">
+
+            </div>
+            <div class="progress progress-striped active">
+                <div class="bar" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div id="content" class="span12">
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    {% javascripts
+    '@SmirikPropelAdminBundle/Resources/public/js/tomodal.js' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        var default_route = '{{ path(routes.list, {"page": page, "sort": sort, "sort_type" : sort_type, "filter" : filter, "options": options}) }}';
+        var default_error_message = "{{ 'Try again later'|trans }}.";
+        var default_error_title = "{{ 'Error'|trans }}!";
+        var default_confirm_message = "{{ 'Are you sure'|trans }}?";
+    </script>
+{% endblock %}

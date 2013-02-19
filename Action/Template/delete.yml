@@ -1,0 +1,6 @@
+label:   Delete
+name:    delete
+builder: object
+options:
+    route_with_id: true
+    confirmation: true

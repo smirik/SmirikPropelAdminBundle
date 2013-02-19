@@ -1,0 +1,31 @@
+<?php
+
+namespace **Controller**\Form\Type\Base;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class **FormName** extends AbstractType
+{
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+      **FIELDS**
+        ;
+    }
+
+    public function getDefaultOptions(array $options)
+    {
+        return array(
+            'data_class' => '**Model**',
+        );
+    }
+
+    public function getName()
+    {
+        return '**ModelName**';
+    }
+
+}
+

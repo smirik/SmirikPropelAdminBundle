@@ -1,0 +1,8 @@
+{% block admin_action_create %}
+    <p class="pull-right">
+        <a class="btn sortable" href="{{ path(routes.index, {'page': page, 'sort': sort, 'sort_type' : sort_type }) }}">{{ 'Filter'|trans }}</a>
+        {% for action in grid.actions.getByType('single') %}
+            {% include action.template with {'action': action } %}
+        {% endfor %}
+    </p>
+{% endblock %}

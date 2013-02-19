@@ -1,0 +1,6 @@
+label:   Edit
+name:    edit
+builder: object
+options:
+    route_with_id: true
+    confirmation: false

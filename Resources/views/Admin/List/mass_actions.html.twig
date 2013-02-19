@@ -1,0 +1,3 @@
+{% for m_action in grid.actions.getByAlias('mass') %}
+    <a href="#" class="btn" onclick="assign_mass_action('{{ m_action.route }}', '{{ m_action.alert|trans }}', {{ m_action.flush }})">{{ m_action.name }}</a>
+{% endfor %}

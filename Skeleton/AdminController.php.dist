@@ -1,0 +1,14 @@
+<?php
+
+namespace **Controller**\Controller;
+
+use **Controller**\Controller\Base\Admin**ModelName**Controller as BaseController;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
+class Admin**ModelName**Controller extends BaseController
+{
+	
+}
+

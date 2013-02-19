@@ -1,0 +1,30 @@
+{
+    "name": "smirik/propel-admin-bundle",
+    "description": "Powerful propel admin generator.",
+    "keywords": ["propel", "admin", "generator"],
+    "homepage": "http://smirik.github.com/SmirikPropelAdminBundle/",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Evgeny Smirnov",
+            "email": "smirik@gmail.com",
+            "homepage": "http://4xxi.com"
+        }
+    ],
+    "require": {
+      "symfony/framework-bundle": "2.*",
+      "propel/propel-bundle": "1.1.*",
+      "willdurand/propel-typehintable-behavior": "*",
+      "smirik/bootstrap-bundle": "*"
+    },
+    "suggest": {
+      "friendsofsymfony/user-bundle": "*",
+      "avalanche123/imagine-bundle": "*",
+      "imagine/Imagine": "*"
+    },
+    "autoload": {
+        "psr-0": { "Smirik\\PropelAdminBundle": "" }
+    },
+    "target-dir": "Smirik/PropelAdminBundle"
+}

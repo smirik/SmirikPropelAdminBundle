@@ -1,0 +1,22 @@
+{% block generic_label %}
+    {% spaceless %}
+        {% if required %}
+            {% set attr = attr|merge({'class': attr.class|default('') ~ ' control-label required'}) %}
+        {% endif %}
+        {% set attr = attr|merge({'class': attr.class|default('') ~ ' control-label'}) %}
+        <label{% for attrname,attrvalue in attr %} {{attrname}}="{{attrvalue}}"{% endfor %}>{{ ('form.'~label)|trans({}) }}</label>
+    {% endspaceless %}
+{% endblock %}
+
+{% block field_row %}
+    <div class="control-group">
+        <div class="form_error">
+            {{ form_errors(form) }}
+        </div>
+        {{ form_label(form) }}
+        <div class="controls">
+            {{ form_widget(form) }}
+        </div>
+    </div>
+		<!-- /clearfix -->
+{% endblock field_row %}

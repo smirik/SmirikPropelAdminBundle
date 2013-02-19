@@ -1,0 +1,38 @@
+<tr>
+    <form class="filterable">
+        <td class="filter-checkbox"><input type="checkbox" id="select-all-checkbox" name="select-all-checkbox"></td>
+        {% for column in columns %}
+            {% if column.listable %}
+                {% if column.filterable %}
+                    <td class="column-filter-{{ column.type }}">
+                        {% include column.template('filter') with {'column': column, 'filter_raw': filter_raw} %}
+                    </td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </form>
+    {% if not options.hide_actions is defined or (options.hide_actions is defined and not options.hide_actions) %}
+        {% for action in grid.actions.getByAlias('ajax_object') %}
+            <td class="filter-action-{{ action.name|lower }} ajax_object-action"></td>
+        {% endfor %}
+        {% for action in grid.actions.getByAlias('object') %}
+            <td class="filter-action-{{ action.name|lower }} object-action"></td>
+        {% endfor %}
+    {% endif %}
+</tr>
+
+<script language="JavaScript">
+    $(document).on('click', 'input#select-all-checkbox', function(e){
+        var select_all_checkbox = $('input:checkbox#select-all-checkbox');
+        console.log(select_all_checkbox.is(':checked'));
+        if (select_all_checkbox.is(':checked'))
+        {
+            $('input.admin_item_checkbox').attr('checked', "checked");
+        } else
+        {
+            $('input.admin_item_checkbox').attr('checked', false);
+        }
+    });
+</script>

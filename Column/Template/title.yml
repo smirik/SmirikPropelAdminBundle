@@ -1,0 +1,9 @@
+label: Title
+name:  title
+type:  string
+builder: simple
+options:
+    listable:   true
+    editable:   true
+    sortable:   true
+    filterable: true

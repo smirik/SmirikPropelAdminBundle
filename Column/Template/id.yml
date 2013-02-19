@@ -1,0 +1,9 @@
+label: Id
+name:  id
+type:  integer
+builder: simple
+options:
+    listable:   true
+    editable:   false
+    sortable:   true
+    filterable: true

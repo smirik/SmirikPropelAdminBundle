@@ -1,0 +1,7 @@
+type:  string
+builder: simple
+options:
+    editable:   true
+    listable:   true
+    sortable:   true
+    filterable: true

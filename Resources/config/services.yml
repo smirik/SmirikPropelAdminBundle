@@ -1,0 +1,50 @@
+parameters:
+    admin.abstract.controller.class: Smirik\PropelAdminBundle\Controller\AdminAbstractController
+    admin.action.manager.class: Smirik\PropelAdminBundle\Manager\ActionManager
+    admin.column.manager.class: Smirik\PropelAdminBundle\Manager\ColumnManager
+
+services:
+    admin.abstract.controller:
+        class: %admin.abstract.controller.class%
+        arguments:
+            - "@service_container"
+
+    admin.action.manager:
+        class: %admin.action.manager.class%
+        calls:
+            - [ setContainer, [ "@service_container" ]]
+
+    admin.simple.action.builder:
+        class: Smirik\PropelAdminBundle\Builder\Action\SimpleActionBuilder
+        tags:
+            - { name: smirik_propel_admin.action.builder, alias: simple }
+
+    admin.object.action.builder:
+        class: Smirik\PropelAdminBundle\Builder\Action\ObjectActionBuilder
+        tags:
+            - { name: smirik_propel_admin.action.builder, alias: object }
+
+    admin.ajax_object.action.builder:
+        class: Smirik\PropelAdminBundle\Builder\Action\AjaxObjectActionBuilder
+        tags:
+            - { name: smirik_propel_admin.action.builder, alias: ajax_object }
+
+    admin.single.action.builder:
+        class: Smirik\PropelAdminBundle\Builder\Action\SingleActionBuilder
+        tags:
+            - { name: smirik_propel_admin.action.builder, alias: single }
+
+    admin.column.manager:
+        class: %admin.column.manager.class%
+        calls:
+            - [ setContainer, [ "@service_container" ]]
+
+    admin.simple.column.builder:
+        class: Smirik\PropelAdminBundle\Builder\Column\SimpleColumnBuilder
+        tags:
+            - { name: smirik_propel_admin.column.builder, alias: simple }
+    
+    admin.generator.manager:
+        class: Smirik\PropelAdminBundle\Manager\GeneratorManager
+        calls:
+            - [ setContainer, [ "@service_container" ]]

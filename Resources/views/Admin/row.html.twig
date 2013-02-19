@@ -1,0 +1,26 @@
+<tbody>
+    <tr id="object{{ item.id }}" data-id="{{ item.id }}">
+        <td class="filter-checkbox"><input type="checkbox" class="admin_item_checkbox" data-item="{{ item.__toString() }}" value="{{ item.id }}"></td>
+        {% for column in columns %}
+            {% if column.listable %}
+                {% if column.type == 'collection' %}
+                    <td class="column-{{ column.name }}">
+                    {% set coll = attribute(item, column.method) %}
+                    {% for item in coll %}
+                        {{ item }}
+                    {% endfor %}
+                    </td>
+                {% else %}
+                    <td class="column-{{ column.name }}">{% include column.template('list') with {"item": item, "column": column } %}</td>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if not options.hide_actions is defined or (options.hide_actions is defined and not options.hide_actions) %}
+            {% for action in grid.actions.getByType('object')  %}
+                {% include action.template with {'action': action, 'item': item } %}
+            {% endfor %}
+        {% endif %}
+    </tr>
+</tbody>
+

@@ -1,0 +1,20 @@
+<thead>
+<tr>
+    <th></th>
+    {% for column in columns %}
+        {% if column.listable %}
+            {% if column.sortable %}
+                <th class="column-header-{{ column.name }}">
+                    {% set sortable = (sort_type == 'desc') ? 'asc' : 'desc' %}
+                    <a class="sortable" href="{{ path(routes.index, {'page': page, 'sort': column.name, 'sort_type' : sortable }) }}"><i class="icon-arrow-{% if (sort_type == 'desc') and (sort == column.name) %}down{% else %}up{% endif %}">&nbsp;</i>&nbsp;{{ column.label|trans }}</a>
+                </th>
+            {% else %}
+                <th>{{ column.label }}</th>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    {% if options.hide_actions is defined and not options.hide_actions %}
+        <th>{{ "Actions"|trans }}</th>
+    {% endif %}
+</tr>
+</thead>

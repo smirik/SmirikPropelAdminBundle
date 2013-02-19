@@ -1,0 +1,18 @@
+{% if collection.haveToPaginate %}
+    <div class="pagination">
+        <ul>
+            {% if page > 3 %}
+                <li><a href="{{ path(routes.list, {'page': 1, 'sort': sort, 'sort_type': sort_type, "filter" : filter, "options": options|json_encode }) }}">«</a></li>
+                <li><a href="#">...</a></li>
+            {% endif %}
+            {% set links = collection.links( 5 ) %}
+            {% for num in links %}
+                <li {% if (num == page) or ((num == 1) and (page == '')) %}class="active"{% endif %}><a href="{{ path(routes.list, {'page': num, 'sort': sort, 'sort_type': sort_type, "filter" : filter, "options": options|json_encode }) }}">{{ num }}</a></li>
+            {% endfor %}
+            {% if collection.lastPage >= page+4 %}
+                <li><a href="{{ path(routes.list, {'page': page+3, 'sort': sort, 'sort_type': sort_type, "filter" : filter, "options": options|json_encode }) }}">...</a></li>
+                <li><a href="{{ path(routes.list, {'page': collection.lastPage, 'sort': sort, 'sort_type': sort_type, "filter" : filter, "options": options|json_encode}) }}">»</a></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
