@@ -13,15 +13,15 @@
         }
     ],
     "require": {
-      "symfony/framework-bundle": "2.*",
-      "propel/propel-bundle": "1.1.*",
-      "willdurand/propel-typehintable-behavior": "*",
-      "smirik/bootstrap-bundle": "*"
+        "symfony/framework-bundle": "2.*",
+        "propel/propel-bundle": "1.1.*",
+        "willdurand/propel-typehintable-behavior": "*",
+        "smirik/bootstrap-bundle": "*"
     },
     "suggest": {
-      "friendsofsymfony/user-bundle": "*",
-      "avalanche123/imagine-bundle": "*",
-      "imagine/Imagine": "*"
+        "friendsofsymfony/user-bundle": "*",
+        "avalanche123/imagine-bundle": "*",
+        "imagine/Imagine": "*"
     },
     "autoload": {
         "psr-0": { "Smirik\\PropelAdminBundle": "" }

@@ -6,9 +6,9 @@ interface ActionBuilderInterface
 {
 
     /**
-     * Creates new action related to the options parameters 
+     * Creates new action related to the options parameters. Returns created Action
      * @param array $options
-     * @return void
+     * @return object
      */
     function create($options);
 

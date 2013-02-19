@@ -46,7 +46,7 @@ abstract class Action implements ActionInterface
     /**
      * @var array $keys --- list of additional keys in options
      */
-    protected $keys = array('template', 'options');
+    protected $keys = array('extends', 'options');
     /**
      * @var array $required_keys --- list of required keys in options
      */
