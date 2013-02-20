@@ -83,5 +83,5 @@ After creation you may modify any created files except `Base/*`. If you modify t
 
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
-- [Deal with relations](builders.md)
+- [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
