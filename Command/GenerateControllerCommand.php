@@ -220,8 +220,10 @@ class GenerateControllerCommand extends ContainerAwareCommand
             $output->writeln("\n".'Column was added.'."\n");
         }
 
-        if (count($form_columns) > 0) {
+        if (is_array($form_columns)) {
             $form_text = implode("\n      ", $form_columns);
+        } else {
+            $form_text = $form_columns;
         }
 
         return array(
