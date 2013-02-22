@@ -1,0 +1,5 @@
+<td class="center">
+    <a href="{{ path(action.route, { 'id': item.id, 'data': action.value(item) }) }}" data-status="{{ action.value(item) }}" data-id="{{ item.id }}" data-text="{{ action.json }}" class="ajax_flag btn input-block-level">
+        {{ action.view(item)|trans }}
+    </a>
+</td>

@@ -9,6 +9,7 @@ use Smirik\PropelAdminBundle\Column\DataGrid;
 
 use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Yaml\Exception\ParseException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class AdminAbstractController extends Controller
 {
@@ -180,10 +181,16 @@ abstract class AdminAbstractController extends Controller
 
     abstract public function getForm();
 
-    public function editAction($id)
+    public function initialize()
     {
         $this->setup();
         $this->generateRoutes();
+    }
+
+    public function editAction($id)
+    {
+        $this->initialize();
+        
         $this->object = $this->getQuery()->findPk($id);
         if (!$this->object) {
             throw $this->createNotFoundException('Not found');
@@ -215,10 +222,9 @@ abstract class AdminAbstractController extends Controller
 
     public function deleteAction($id = 5)
     {
-        $this->setup();
+        $this->initialize();
         $page = $this->getRequest()->query->get('page', 1);
 
-        $this->generateRoutes();
         $this->object = $this->getQuery()->findPk($id);
         if (!$this->object) {
             throw $this->createNotFoundException('Not found');
@@ -231,8 +237,7 @@ abstract class AdminAbstractController extends Controller
 
     public function newAction()
     {
-        $this->setup();
-        $this->generateRoutes();
+        $this->initialize();
         $this->object = $this->getObject();
 
         $request = $this->getRequest();
@@ -256,6 +261,30 @@ abstract class AdminAbstractController extends Controller
         );
 
         return $this->render($this->grid->template('form.new'), $render);
+    }
+
+    public function enableAction()
+    {
+        $this->initialize();
+        
+        $id     = (int)$this->getRequest()->request->get('id', false);
+        $status = (int)$this->getRequest()->request->get('status', false);
+        
+        if (!$id || ($status === false))
+        {
+            return new JsonResponse(array('status' => -1,  'id' => $id, 'status2' => $status));
+        }
+        $obj = $this->getQuery()->findPk($id);
+        if (!$obj)
+        {
+            return new JsonResponse(array('status' => -2));
+        }
+        
+        $obj->setIsActive($status);
+        $obj->save();
+        
+        $response = array('status' => 1);
+        return new JsonResponse($response);
     }
 
     public function underscore2Camelcase($str)

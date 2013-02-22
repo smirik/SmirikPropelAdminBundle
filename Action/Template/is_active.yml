@@ -1,0 +1,10 @@
+label:   Enabled
+name:    is_active
+builder: ajax_flag
+options:
+    route_with_id: true
+    confirmation: false
+method:  getIsActive
+data:
+    - { key: 0, text: 'Enable' }
+    - { key: 1, text: 'Disable' }

@@ -29,6 +29,11 @@ services:
         tags:
             - { name: smirik_propel_admin.action.builder, alias: ajax_object }
 
+    admin.ajax_flag.action.builder:
+        class: Smirik\PropelAdminBundle\Builder\Action\AjaxFlagActionBuilder
+        tags:
+            - { name: smirik_propel_admin.action.builder, alias: ajax_flag }
+
     admin.single.action.builder:
         class: Smirik\PropelAdminBundle\Builder\Action\SingleActionBuilder
         tags:

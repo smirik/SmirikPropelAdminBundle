@@ -38,6 +38,32 @@ $(document).on('ready', function(e){
         $('<span/>').html(text).appendTo(body);
         return body;
     }
+    
+    $(document).on('click', 'a.ajax_flag', function(e){
+        e.preventDefault();
+        /* @todo multiple choices */
+        /* @todo refactoring */
+        var that   = $(this),
+            data   = that.data(),
+            status = (data.status == 1) ? 0 : 1; 
+            
+        if (that.attr('disabled')) {
+            return false;
+        }
+        
+        that.attr('disabled', true);
+        $.post(that.attr('href'), { 'status': status, 'id': data.id }, function(response){
+            that.attr('disabled', false);
+            that.data('status', status);
+            $.each(data.text, function(e){
+                if (this.key == status) {
+                    that.html(this.text);
+                } 
+            });
+            
+        }, 'json');
+    });
+    
 });
 
 var loadContent = function (path) {

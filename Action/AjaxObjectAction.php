@@ -31,10 +31,20 @@ class AjaxObjectAction extends ObjectAction
         return $obj->$method();
     }
     
+    public function getMethod()
+    {
+        return $this->method;
+    }
+    
     public function getView($obj)
     {
         $value = $this->getValue($obj);
         return $this->data[$value]['text'];
+    }
+    
+    public function getJson()
+    {
+        return json_encode($this->data);
     }
 
     public function getAlias()

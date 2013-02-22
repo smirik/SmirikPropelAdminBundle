@@ -35,7 +35,7 @@ Let's consider AcmeDemoBundle. We will create admin panel for users from FOSUser
 
 ##### Command with all options
 ```bash
-php app/console propeladmin:generate:controller --controller=FOS/UserBundle --model_name=User --model=FOS/UserBundle/Propel/User --query=FOS/UserBundle/Propel/User --form=Acme/DemoBundle/Form/Type/UserType --admin_prefix=admin --model_prefix=users --layout=AcmeDemoBundle:Admin:layout.html.twig
+php app/console propeladmin:generate:controller --controller=FOS/UserBundle --model_name=User --model=FOS/UserBundle/Propel/User --query=FOS/UserBundle/Propel/UserQuery --form=Acme/DemoBundle/Form/Type/UserType --admin_prefix=admin --model_prefix=users --layout=AcmeDemoBundle:Admin:layout.html.twig
 ```
 
 ##### Detailed description
@@ -71,7 +71,7 @@ If you want to stop adding columns just press `<return>`
 
 ##### Actions
 
-On the last you can active standard actions: `create, edit, delete`. Create & Edit actions are based on Form/Type class created previously.
+On the last you can activate standard actions: `create, edit, delete`. Create & Edit actions are based on Form/Type class created previously.
 
 ##### Final words
 

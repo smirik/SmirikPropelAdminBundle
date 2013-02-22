@@ -14,10 +14,7 @@
         {% endfor %}
     </form>
     {% if not options.hide_actions is defined or (options.hide_actions is defined and not options.hide_actions) %}
-        {% for action in grid.actions.getByAlias('ajax_object') %}
-            <td class="filter-action-{{ action.name|lower }} ajax_object-action"></td>
-        {% endfor %}
-        {% for action in grid.actions.getByAlias('object') %}
+        {% for action in grid.actions.getByType('object') %}
             <td class="filter-action-{{ action.name|lower }} object-action"></td>
         {% endfor %}
     {% endif %}
