@@ -128,7 +128,7 @@ abstract class AdminAbstractController extends Controller
 
         if ($filter && is_array($filter)) {
             foreach ($filter as $key => $value) {
-                if (empty($value)) {
+                if ($value === '') {
                     continue;
                 }
                 $filter_method = (string)'filterBy'.$this->underscore2Camelcase($key);
