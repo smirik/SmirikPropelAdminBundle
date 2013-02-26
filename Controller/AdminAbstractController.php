@@ -272,7 +272,7 @@ abstract class AdminAbstractController extends Controller
         
         if (!$id || ($status === false))
         {
-            return new JsonResponse(array('status' => -1,  'id' => $id, 'status2' => $status));
+            return new JsonResponse(array('status' => -1));
         }
         $obj = $this->getQuery()->findPk($id);
         if (!$obj)

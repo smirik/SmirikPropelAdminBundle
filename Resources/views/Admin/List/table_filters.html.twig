@@ -23,7 +23,6 @@
 <script language="JavaScript">
     $(document).on('click', 'input#select-all-checkbox', function(e){
         var select_all_checkbox = $('input:checkbox#select-all-checkbox');
-        console.log(select_all_checkbox.is(':checked'));
         if (select_all_checkbox.is(':checked'))
         {
             $('input.admin_item_checkbox').attr('checked', "checked");

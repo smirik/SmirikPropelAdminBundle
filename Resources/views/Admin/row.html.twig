@@ -1,6 +1,6 @@
 <tbody>
     <tr id="object{{ item.id }}" data-id="{{ item.id }}">
-        <td class="filter-checkbox"><input type="checkbox" class="admin_item_checkbox" data-item="{{ item.__toString() }}" value="{{ item.id }}"></td>
+        <td class="filter-checkbox"><input type="checkbox" class="admin_item_checkbox" data-item="{{ item.__toString() }}" name="checkbox[]" id="checkbox{{ item.id }}" value="{{ item.id }}"></td>
         {% for column in columns %}
             {% if column.listable %}
                 {% if column.type == 'collection' %}
