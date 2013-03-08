@@ -6,9 +6,9 @@ class AjaxObjectAction extends ObjectAction
 {
 
     /**
-     * @var string $method --- model method
+     * @var string $getter --- model method
      */
-    protected $method;
+    protected $getter;
 
     /**
      * @var array $data --- attached data from config
@@ -23,17 +23,17 @@ class AjaxObjectAction extends ObjectAction
     /**
      * @var array $required_keys --- list of required keys in options
      */
-    protected $required_keys = array('name', 'label', 'route', 'options', 'method', 'data');
+    protected $required_keys = array('name', 'label', 'route', 'options', 'getter', 'data');
 
     public function getValue($obj)
     {
-        $method = $this->method;
-        return $obj->$method();
+        $getter = $this->getter;
+        return $obj->$getter();
     }
     
-    public function getMethod()
+    public function getGetter()
     {
-        return $this->method;
+        return $this->getter;
     }
     
     public function getView($obj)

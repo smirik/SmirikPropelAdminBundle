@@ -94,6 +94,7 @@ abstract class AdminAbstractController extends Controller
             'edit'   => 'admin_'.$this->name.'_edit',
             'update' => 'admin_'.$this->name.'_edit',
             'delete' => 'admin_'.$this->name.'_delete',
+            'enable' => 'admin_'.$this->name.'_enable',
         );
     }
 
@@ -201,7 +202,7 @@ abstract class AdminAbstractController extends Controller
         $form = $this->createForm($this->getForm(), $this->object);
 
         if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
                 $this->object->save();
 
@@ -244,7 +245,7 @@ abstract class AdminAbstractController extends Controller
         $form    = $this->createForm($this->getForm(), $this->object);
 
         if ('POST' == $request->getMethod()) {
-            $form->bindRequest($request);
+            $form->bind($request);
             if ($form->isValid()) {
                 $this->object->save();
 
@@ -267,8 +268,9 @@ abstract class AdminAbstractController extends Controller
     {
         $this->initialize();
         
-        $id     = (int)$this->getRequest()->request->get('id', false);
-        $status = (int)$this->getRequest()->request->get('status', false);
+        $id     = (int)$this->getRequest()->query->get('id', false);
+        $status = (int)$this->getRequest()->query->get('status', false);
+        $setter = $this->getRequest()->query->get('setter', false);
         
         if (!$id || ($status === false))
         {
@@ -280,11 +282,22 @@ abstract class AdminAbstractController extends Controller
             return new JsonResponse(array('status' => -2));
         }
         
-        $obj->setIsActive($status);
+        $obj->$setter($status);
         $obj->save();
         
-        $response = array('status' => 1);
-        return new JsonResponse($response);
+        if ($this->getRequest()->isXmlHttpRequest())
+        {
+            $this->setup();
+            return $this->render($this->grid->template('row'), array(
+                'item' => $obj,
+                'grid' => $this->grid,
+                'columns' => $this->grid->getColumns(),
+                'actions' => $this->grid->getActions(),
+                'options' => false,
+            ));
+        }
+        
+        return $this->redirect($this->generateUrl($this->routes['index']));
     }
 
     public function underscore2Camelcase($str)

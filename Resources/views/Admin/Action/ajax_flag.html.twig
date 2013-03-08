@@ -1,5 +1,5 @@
 <td class="center">
-    <a href="{{ path(action.route, { 'id': item.id, 'data': action.value(item) }) }}" data-status="{{ action.value(item) }}" data-id="{{ item.id }}" data-text="{{ action.json }}" class="ajax_flag btn input-block-level">
+    <a data-url="{{ path(action.route, { 'id': item.id, 'data': action.value(item), 'setter': action.setter, 'status': action.value(item) }) }}" data-target="#object{{ item.id }}" data-ajax="true" class="btn input-block-level" href="{{ path(action.route, { 'id': item.id, 'data': action.value(item), 'setter': action.setter, 'status': action.value(item) }) }}">
         {{ action.view(item)|trans }}
     </a>
 </td>

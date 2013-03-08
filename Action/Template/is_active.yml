@@ -4,7 +4,8 @@ builder: ajax_flag
 options:
     route_with_id: true
     confirmation: false
-method:  getIsActive
+getter: getIsActive
+setter: setIsActive 
 data:
     - { key: 0, text: 'Enable' }
     - { key: 1, text: 'Disable' }

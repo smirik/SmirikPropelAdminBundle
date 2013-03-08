@@ -102,48 +102,7 @@ SmirikPropelAdminBundle provides 3 standard action builders:
 
 #### AJAX-flag action
 
-It has already implementation for *enable* standard action. The configuration is:
-
-``` yaml
-custom_field:
-    label:   Custom Field
-    name:    custom_field
-    builder: ajax_flag
-    options:
-        route_with_id: true
-        confirmation: false
-    method:  getIsActive
-    data:
-        - { key: 0, text: 'Status0' }
-        - { key: 1, text: 'Status1' }
-```
-
-All configs except confirmation are required. The action creates a link based on *data* config. It calls *method* in object and make AJAX call to the specified route. Response would be ignored.
-
-##### Standard action: enable
-
-You may use standard *enable* action to provide enable/disable functionality. It requires is_active field in the database.
-
-Activate it in yaml:
-
-``` yaml
-actions:
-    is_active:
-        extends: is_active
-        routing: admin_test_enable
-```
-
-**Warning!** You have to add route to routing.yml manually. Action name is given by template: `admin_%url_prefix%_enable`.
-
-``` yaml
-routing.yml
-...
-admin_test_enable:
-  pattern: /test/enable
-  defaults: { _controller: AcmeDemoBundle:AdminDemo:enable }
-```
-
-That's it. You don't need to add the action in Controller because it has already implemented in `AdminAbstractController`.
+See the [documentation](ajax-flag.md)
 
 #### Overriding templates
 

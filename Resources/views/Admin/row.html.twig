@@ -4,7 +4,7 @@
         {% if column.listable %}
             {% if column.type == 'collection' %}
                 <td class="column-{{ column.name }}">
-                {% set coll = attribute(item, column.method) %}
+                {% set coll = attribute(item, column.getter) %}
                 {% for item in coll %}
                     {{ item }}
                 {% endfor %}

@@ -26,7 +26,7 @@ abstract class Column implements ColumnInterface
      * Method related to the data keys in options
      * @var string
      */
-    protected $method;
+    protected $getter;
 
     /**
      * @var array
@@ -99,7 +99,7 @@ abstract class Column implements ColumnInterface
         return $this->options['filterable'];
     }
 
-    public function getMethod()
+    public function getGetter()
     {
         return $this->replaceUnderscore($this->name);
     }
