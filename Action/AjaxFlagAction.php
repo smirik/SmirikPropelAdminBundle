@@ -34,22 +34,44 @@ class AjaxFlagAction extends AjaxObjectAction
         return $this->setter;
     }
     
-    public function getValue($obj)
+    /**
+     * Find position of object in data array according to key.
+     * @param object
+     * @return integer
+     */
+    private function getPositionByKey($obj)
     {
         $getter = $this->getter;
         $current_value = (int)$obj->$getter();
-        if (isset($this->data[$current_value+1]))
+        $count = 0;
+        foreach ($this->data as $data)
         {
-            return $current_value+1;
+            if ($data['key'] == $current_value)
+            {
+                return $count;
+            }
+            $count++;
+        }
+        throw new \Exception('Data for key = '.$obj->$getter().' is not specified');
+    }
+    
+    /**
+     * 
+     */
+    public function getValue($obj)
+    {
+        $position = $this->getPositionByKey($obj);
+        if (isset($this->data[$position+1]))
+        {
+            return $this->data[$position+1]['key'];
         }
         return 0;
     }
     
     public function getView($obj)
     {
-        $value = parent::getValue($obj);
+        $value = $this->getPositionByKey($obj);
         return $this->data[$value]['text'];
     }
-    
     
 }
