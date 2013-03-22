@@ -1,5 +1,4 @@
 <tr>
-    <form class="filterable">
         <td class="filter-checkbox"><input type="checkbox" id="select-all-checkbox" name="select-all-checkbox"></td>
         {% for column in columns %}
             {% if column.listable %}
@@ -12,14 +11,12 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
-    </form>
     {% if not options.hide_actions is defined or (options.hide_actions is defined and not options.hide_actions) %}
         {% for action in grid.actions.getByType('object') %}
             <td class="filter-action-{{ action.name|lower }} object-action"></td>
         {% endfor %}
     {% endif %}
 </tr>
-
 <script language="JavaScript">
     $(document).on('click', 'input#select-all-checkbox', function(e){
         var select_all_checkbox = $('input:checkbox#select-all-checkbox');
