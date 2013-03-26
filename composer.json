@@ -14,7 +14,7 @@
     ],
     "require": {
         "symfony/framework-bundle": "2.*",
-        "propel/propel-bundle": "1.1.*",
+        "propel/propel-bundle": "1.*",
         "willdurand/propel-typehintable-behavior": "*",
         "smirik/bootstrap-bundle": "*"
     },
