@@ -249,7 +249,7 @@ abstract class AdminAbstractController extends Controller
             if ($form->isValid()) {
                 $this->object->save();
 
-                return $this->redirect($this->generateUrl($this->routes['edit'], array('id' => $this->object->getId())));
+                return $this->redirect($this->generateUrl($this->routes['index']));
             }
         }
 
