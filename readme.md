@@ -24,7 +24,7 @@ To see the functionality in action you can clone sandbox: [SmirikPropelAdminDemo
 
 ### License
 
-MIT. Complete License is avaliable in [Resources/meta/LICENSE](Resources/meta/LICENSE)
+MIT. Complete License is available in [Resources/meta/LICENSE](Resources/meta/LICENSE)
 
 ### Issues & feature request
 
