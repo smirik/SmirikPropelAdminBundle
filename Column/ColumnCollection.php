@@ -35,6 +35,21 @@ class ColumnCollection implements \IteratorAggregate
 	{
 		return $this->columns;
 	}
+    
+    /**
+     * @param none
+     * @return array of FileColumn
+     */
+    public function getFileColumns()
+    {
+        $file_columns = array();
+        foreach ($this->columns as $column) {
+            if ($column instanceOf FileColumn) {
+                $file_columns[] = $column;
+            }
+        }
+        return $file_columns;
+    }
 	
 	public function addColumn($column)
 	{

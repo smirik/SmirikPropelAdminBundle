@@ -1,0 +1,5 @@
+avalanche_imagine:
+    filters:
+        admin_image_preview:
+            type:    relative_resize
+            options: { widen: 100 }

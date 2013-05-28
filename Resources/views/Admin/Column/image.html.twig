@@ -1,0 +1,9 @@
+{% if column.view(item) %}
+    <a href="{{ column.uploadPath~attribute(item, column.getter) }}">
+        {% if grid.hasAvalanche %}
+            <img src="{{ column.uploadPath~attribute(item, column.getter) }}" style="max-width: 100px;">
+        {% else %}
+            <img src="{{ column.uploadPath~attribute(item, column.getter) }}" width="100">
+        {% endif %}
+    </a>
+{% endif %}

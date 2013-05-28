@@ -48,8 +48,18 @@ services:
         class: Smirik\PropelAdminBundle\Builder\Column\SimpleColumnBuilder
         tags:
             - { name: smirik_propel_admin.column.builder, alias: simple }
+
+    admin.file.column.builder:
+        class: Smirik\PropelAdminBundle\Builder\Column\FileColumnBuilder
+        tags:
+            - { name: smirik_propel_admin.column.builder, alias: file }
     
     admin.generator.manager:
         class: Smirik\PropelAdminBundle\Manager\GeneratorManager
         calls:
             - [ setContainer, [ "@service_container" ]]
+    
+    admin.upload_file.manager:
+        class: Smirik\PropelAdminBundle\Manager\UploadFileManager
+        calls:
+          - [ setContainer, [ "@service_container" ] ]

@@ -1,0 +1,11 @@
+label: File
+name:  file
+type:  image
+builder: file
+options:
+    listable:   true
+    editable:   true
+    sortable:   false
+    filterable: false
+    upload_path: /uploads/documents/
+    randomize_name: true
