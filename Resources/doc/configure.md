@@ -27,12 +27,14 @@ is_active:
         filterable: true
 ```
 
-For now we are supporting:
+For now it is supported:
 
 * id
 * name
 * title
 * is\_active
+* file
+* image
 * default
 
 Of course you can override any data, e.g. name:
@@ -134,3 +136,11 @@ templates:
 ```
 
 You can override any template listed above. The default content is in `Resources/views/Admin` folder.
+
+### See also
+
+- [More about console generator](generator.md)
+- [Advanced configuration](configure.md)
+- [Deal with relations](relations.md)
+- [How to create own action or column](builders.md)
+- [How to handle file uploads](upload.md)

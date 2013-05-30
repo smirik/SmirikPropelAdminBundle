@@ -92,3 +92,10 @@ actions:
 
 That's it! Full custom declaration of new action is available in `AjaxObjectAction.php` and `AjaxObjectActionBuilder.php`. Look at code & create your own builder.
 
+### See also
+
+- [More about console generator](generator.md)
+- [Advanced configuration](configure.md)
+- [Deal with relations](relations.md)
+- [How to create own action or column](builders.md)
+- [How to handle file uploads](upload.md)

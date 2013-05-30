@@ -27,6 +27,12 @@ Add SmirikPropelAdminBundle in your `composer.json`:
 }
 ```
 
+or via CLI:
+
+``` bash
+$ php composer.phar require smirik/propel-admin-bundle
+```
+
 Update vendors:
 
 ``` bash
@@ -96,3 +102,4 @@ Other demo screenshots:
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
+- [How to handle file uploads](upload.md)
