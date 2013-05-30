@@ -85,3 +85,4 @@ After creation you may modify any created files except `Base/*`. If you modify t
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
+- [How to handle file uploads](upload.md)
