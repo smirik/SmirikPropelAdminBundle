@@ -5,6 +5,12 @@ namespace Smirik\PropelAdminBundle\Manager;
 class UploadFileManager extends \Symfony\Component\DependencyInjection\ContainerAware
 {
     
+    /**
+     * Get default values for all uploaded files from database & returns hash with data.
+     * @param array $file_columns
+     * @param mixed $item
+     * @return array
+     */
     public function getDefaultValues($file_columns, $item)
     {
         $values = array();
@@ -14,6 +20,15 @@ class UploadFileManager extends \Symfony\Component\DependencyInjection\Container
         return $values;
     }
     
+    /**
+     * Upload files into upload_path dir specified in options. If no file or file was not changed -> put default value.
+     * @todo Make it more clear
+     * @param Symfony\Component\Form\AbstractType $form
+     * @param array $file_columns
+     * @param mixed $item
+     * @param array $default_values
+     * @return void
+     */
     public function uploadFiles($form, $file_columns, $item, $default_values)
     {
         foreach ($file_columns as $column)

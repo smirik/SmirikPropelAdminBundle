@@ -9,7 +9,7 @@
                     <a class="sortable" href="{{ path(routes.index, {'page': page, 'sort': column.name, 'sort_type' : sortable }) }}"><i class="icon-arrow-{% if (sort_type == 'desc') and (sort == column.name) %}down{% else %}up{% endif %}">&nbsp;</i>&nbsp;{{ column.label|trans }}</a>
                 </th>
             {% else %}
-                <th>{{ column.label }}</th>
+                <th>{{ column.label|trans }}</th>
             {% endif %}
         {% endif %}
     {% endfor %}

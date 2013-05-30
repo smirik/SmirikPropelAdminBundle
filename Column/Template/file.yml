@@ -1,6 +1,6 @@
 label: File
 name:  file
-type:  image
+type:  file
 builder: file
 options:
     listable:   true

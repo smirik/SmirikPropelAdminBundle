@@ -210,9 +210,6 @@ abstract class AdminAbstractController extends Controller
         if ('POST' == $request->getMethod()) {
             $form->bind($request);
             if ($form->isValid()) {
-                /**
-                 * Handle file upload
-                 */
                 $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
                 $this->object->save();
 
@@ -254,9 +251,13 @@ abstract class AdminAbstractController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm($this->getForm(), $this->object);
 
+        $file_columns = $this->grid->getColumns()->getFileColumns();
+        $default_values = $this->get('admin.upload_file.manager')->getDefaultValues($file_columns, $this->object);
+
         if ('POST' == $request->getMethod()) {
             $form->bind($request);
             if ($form->isValid()) {
+                $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
                 $this->object->save();
 
                 return $this->redirect($this->generateUrl($this->routes['index']));

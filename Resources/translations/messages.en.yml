@@ -1,2 +1,4 @@
 choice.yes: Yes
 choice.no:  No
+
+Is_active: Enabled

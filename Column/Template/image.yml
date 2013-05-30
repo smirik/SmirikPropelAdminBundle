@@ -7,3 +7,5 @@ options:
     editable:   true
     sortable:   false
     filterable: false
+    upload_path: /uploads/images/
+    randomize_name: true

@@ -19,17 +19,17 @@ class FileToTextTransformer implements DataTransformerInterface
 	}
 
 	/**
-	 * Transforms a string to an object.
+	 * Returns file if presented.
 	 *
 	 * @param  string $text
 	 * @return string
 	 * @throws TransformationFailedException if object is not found.
 	 */
-	public function reverseTransform($text)
+	public function reverseTransform($file)
 	{
-        if (is_object($text))
+        if (is_object($file))
         {
-            return $text;
+            return $file;
         }
         return null;
 	}
