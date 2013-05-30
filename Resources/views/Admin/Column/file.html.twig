@@ -1,0 +1,3 @@
+{% if column.view(item) %}
+    <a href="{{ column.uploadPath~attribute(item, column.getter) }}"><img src="{{ asset('/bundles/smirikpropeladmin/images/file/'~column.view(item)~'.png') }}"></a>
+{% endif %}
