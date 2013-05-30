@@ -1,0 +1,11 @@
+label: Image
+name:  image
+type:  image
+builder: file
+options:
+    listable:   true
+    editable:   true
+    sortable:   false
+    filterable: false
+    upload_path: /uploads/images/
+    randomize_name: true

@@ -6,7 +6,7 @@
         <h2>{{ 'Edit of'|trans }}</h2>
     {% endblock %}
 
-    <form class="form form-horizontal" action="{{ path(routes.update, {"id": form.vars.value.id }) }}" method="post">
+    <form class="form form-horizontal" action="{{ path(routes.update, {"id": form.vars.value.id }) }}" method="post" {{ form_enctype(form) }}>
         <div class="well">
             {{ form_errors(form) }}
             {% for column in columns %}

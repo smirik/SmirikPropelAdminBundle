@@ -103,6 +103,12 @@ abstract class Column implements ColumnInterface
     {
         return $this->replaceUnderscore($this->name);
     }
+    
+    public function getValue($item)
+    {
+        $getter = 'get'.$this->getGetter();
+        return $item->{$getter}();
+    }
 
     /**
      * Replaces underscores in the method name
