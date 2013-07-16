@@ -85,7 +85,7 @@ var loadContent = function (path) {
 
     $.get(path, $('form.filterable').serialize(), function (html) {
         $('.progress').hide();
-        $('#content').html(html);
+        $('#content').html(html).trigger($.Event('propel-admin-content-load'));
         $('.ajax_action').tomodal();
     }, 'html');
 }
