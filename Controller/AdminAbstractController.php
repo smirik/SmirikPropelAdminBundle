@@ -135,13 +135,19 @@ abstract class AdminAbstractController extends Controller
                 if ($value === '') {
                     continue;
                 }
-                $filter_method = (string)'filterBy'.$this->underscore2Camelcase($key);
-                $int_value     = (int)$value;
-                if ((string)$int_value != $value) {
-                    $value = '%'.$value.'%';
+                $filter_method = (string) 'filterBy'.$this->underscore2Camelcase($key);
+                if (preg_match('/\d{4}-\d{2}-\d{2}/', $value))
+                {
+                    // The $value is a date (without time part).
+                    $collection_query
+                        ->$filter_method($value . ' 00:00:00', \Criteria::GREATER_EQUAL)
+                        ->$filter_method($value . ' 23:59:59', \Criteria::LESS_EQUAL);
+                } else {
+                    if (!is_float($value) && !is_int($value)) {
+                        $value = "%" . (string) $value . '%';
+                    }
+                    $collection_query->$filter_method($value);
                 }
-                $collection_query
-                    ->$filter_method($value);
             }
         } else {
             $filter = false;
