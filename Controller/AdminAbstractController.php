@@ -143,7 +143,7 @@ abstract class AdminAbstractController extends Controller
                         ->$filter_method($value . ' 00:00:00', \Criteria::GREATER_EQUAL)
                         ->$filter_method($value . ' 23:59:59', \Criteria::LESS_EQUAL);
                 } else {
-                    if (!is_float($value) && !is_int($value)) {
+                    if (!is_numeric($value)) {
                         $value = "%" . (string) $value . '%';
                     }
                     $collection_query->$filter_method($value);
