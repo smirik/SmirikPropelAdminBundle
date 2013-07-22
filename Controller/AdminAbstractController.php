@@ -174,6 +174,7 @@ abstract class AdminAbstractController extends Controller
             'filter'     => json_encode($filter),
             'filter_raw' => $filter,
             'options'    => $options,
+            'nativeActions' => $this->grid->getNativeActions()
         );
 
         if ($this->getRequest()->isXmlHttpRequest()) {
