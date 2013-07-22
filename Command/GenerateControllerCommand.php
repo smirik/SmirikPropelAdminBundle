@@ -163,7 +163,7 @@ class GenerateControllerCommand extends ContainerAwareCommand
                 'Also you can generate form using this values.',
                 'Also you could specify columns you would add into form.',
                 ' ',
-                '<info>Avaliable column types:</info> <comment>string, integer, text, boolean, date, collection, array</comment>',
+                '<info>Available column types:</info> <comment>string, integer, text, boolean, date, collection, array</comment>',
                 ' ',
                 '<info>Object columns:</info> <comment>'.implode(', ', $propel_columns).'</comment>',
                 ' ',

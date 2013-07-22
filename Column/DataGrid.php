@@ -50,6 +50,8 @@ class DataGrid implements \IteratorAggregate
     protected $is_sortable = false;
     protected $is_filterable = false;
 
+    protected $has_avalanche = false;
+    
     protected $limit = 15;
 
     public function __construct()
@@ -57,6 +59,16 @@ class DataGrid implements \IteratorAggregate
         $this->actions = new ActionCollection();
         $this->columns = new ColumnCollection();
         $this->nativeActions = new ActionCollection();
+    }
+
+    public function setupAvalanche()
+    {
+        $this->has_avalanche = true;
+    }
+    
+    public function hasAvalanche()
+    {
+        return $this->has_avalanche;
     }
 
     /**

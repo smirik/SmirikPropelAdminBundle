@@ -9,6 +9,12 @@ Features:
 - Overriding any templates and/or actions via config or inheritance.
 - Admin tools for any bundle even external like FOSUserBundle.
 
+### Changelog
+
+- [2013-05-30]: Update documentation for file-based fields & related stuff.
+- [2013-05-30]: Add support for file-upload fields.
+
+
 ### Documentation
 
 Check [Resources/doc/index.md](Resources/doc/index.md) for the documentation.
@@ -24,7 +30,7 @@ To see the functionality in action you can clone sandbox: [SmirikPropelAdminDemo
 
 ### License
 
-MIT. Complete License is avaliable in [Resources/meta/LICENSE](Resources/meta/LICENSE)
+MIT. Complete License is available in [Resources/meta/LICENSE](Resources/meta/LICENSE)
 
 ### Issues & feature request
 

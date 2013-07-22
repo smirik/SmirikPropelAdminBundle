@@ -55,7 +55,7 @@ layout | Prefix for current model | AcmeDemoBundle:Admin:layout.html.twig | base
 
 ##### Column's creation
 
-The generator will show you all avaliable columns according to \*TableMap class. You may use any name for the column but you have to create getter & setter for this name. For each column you have to provide:
+The generator will show you all available columns according to \*TableMap class. You may use any name for the column but you have to create getter & setter for this name. For each column you have to provide:
 
 Option | Description
 --- | ---
@@ -85,3 +85,4 @@ After creation you may modify any created files except `Base/*`. If you modify t
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
+- [How to handle file uploads](upload.md)

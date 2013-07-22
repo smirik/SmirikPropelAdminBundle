@@ -6,7 +6,7 @@
     <h2>{{ 'Create'|trans }}</h2>
   {% endblock %}
 
-  <form class="form-horizontal" action="{{ path(routes.new) }}" method="post">
+  <form class="form-horizontal" action="{{ path(routes.new) }}" method="post" {{ form_enctype(form) }}>
     <div class="well">
       {{ form_errors(form) }}
       {% for column in columns %}

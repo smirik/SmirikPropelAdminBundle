@@ -88,3 +88,11 @@ class MyModel extends BaseMyModel
         - { key: 1, text: 'Status1' }
 
 ```
+
+### See also
+
+- [More about console generator](generator.md)
+- [Advanced configuration](configure.md)
+- [Deal with relations](relations.md)
+- [How to create own action or column](builders.md)
+- [How to handle file uploads](upload.md)

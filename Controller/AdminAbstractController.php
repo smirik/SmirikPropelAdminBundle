@@ -75,6 +75,9 @@ abstract class AdminAbstractController extends Controller
         $action_manager = $this->get('admin.action.manager');
         $column_manager = $this->get('admin.column.manager');
         $this->grid->load($yaml, $column_manager, $action_manager);
+        if (array_key_exists('AvalancheImagineBundle', $this->container->getParameter('kernel.bundles'))) {
+            $this->grid->setupAvalanche();
+        }
     }
 
     public function getPaginate()
@@ -132,13 +135,19 @@ abstract class AdminAbstractController extends Controller
                 if ($value === '') {
                     continue;
                 }
-                $filter_method = (string)'filterBy'.$this->underscore2Camelcase($key);
-                $int_value     = (int)$value;
-                if ((string)$int_value != $value) {
-                    $value = '%'.$value.'%';
+                $filter_method = (string) 'filterBy'.$this->underscore2Camelcase($key);
+                if (preg_match('/\d{4}-\d{2}-\d{2}/', $value))
+                {
+                    // The $value is a date (without time part).
+                    $collection_query
+                        ->$filter_method($value . ' 00:00:00', \Criteria::GREATER_EQUAL)
+                        ->$filter_method($value . ' 23:59:59', \Criteria::LESS_EQUAL);
+                } else {
+                    if (!is_numeric($value)) {
+                        $value = "%" . (string) $value . '%';
+                    }
+                    $collection_query->$filter_method($value);
                 }
-                $collection_query
-                    ->$filter_method($value);
             }
         } else {
             $filter = false;
@@ -202,9 +211,13 @@ abstract class AdminAbstractController extends Controller
 
         $form = $this->createForm($this->getForm(), $this->object);
 
+        $file_columns = $this->grid->getColumns()->getFileColumns();
+        $default_values = $this->get('admin.upload_file.manager')->getDefaultValues($file_columns, $this->object);
+
         if ('POST' == $request->getMethod()) {
             $form->bind($request);
             if ($form->isValid()) {
+                $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
                 $this->object->save();
 
                 return $this->redirect($this->generateUrl($this->routes['index']));
@@ -245,9 +258,13 @@ abstract class AdminAbstractController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm($this->getForm(), $this->object);
 
+        $file_columns = $this->grid->getColumns()->getFileColumns();
+        $default_values = $this->get('admin.upload_file.manager')->getDefaultValues($file_columns, $this->object);
+
         if ('POST' == $request->getMethod()) {
             $form->bind($request);
             if ($form->isValid()) {
+                $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
                 $this->object->save();
 
                 return $this->redirect($this->generateUrl($this->routes['index']));
