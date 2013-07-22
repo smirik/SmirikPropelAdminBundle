@@ -4,7 +4,6 @@ namespace Smirik\PropelAdminBundle\Action;
 
 abstract class Action implements ActionInterface
 {
-
     /**
      * @var string $name --- public name for action
      */
@@ -97,6 +96,11 @@ abstract class Action implements ActionInterface
             return $this->template;
         }
         return 'SmirikPropelAdminBundle:Admin/Action:'.$this->getAlias().'.html.twig';
+    }
+
+    public function isNative()
+    {
+        return in_array(strtolower($this->getName()), array('edit', 'delete'));
     }
 
 }

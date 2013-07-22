@@ -2,7 +2,7 @@
 
 namespace Smirik\PropelAdminBundle\Action;
 
-class ActionCollection implements \IteratorAggregate
+class ActionCollection implements \IteratorAggregate, \Countable
 {
 	
 	/**
@@ -40,7 +40,8 @@ class ActionCollection implements \IteratorAggregate
 
     /**
      * Get all actions by type
-     * @param string $alias
+     * @param $type
+     * @internal param string $alias
      * @return array
      */
     public function getByType($type)
@@ -75,4 +76,8 @@ class ActionCollection implements \IteratorAggregate
 		$this->actions[] = $action;
 	}
 
+    public function count()
+    {
+        return count($this->actions);
+    }
 }

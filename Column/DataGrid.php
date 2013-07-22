@@ -2,6 +2,7 @@
 
 namespace Smirik\PropelAdminBundle\Column;
 
+use Smirik\PropelAdminBundle\Action\Action;
 use Smirik\PropelAdminBundle\Action\ActionCollection;
 
 class DataGrid implements \IteratorAggregate
@@ -18,6 +19,12 @@ class DataGrid implements \IteratorAggregate
      * @var $actions
      */
     protected $actions;
+
+    /**
+     * All native actions(i.e. edit, delete etc) are stored and displayed separately
+     * @var ActionCollection
+     */
+    protected $nativeActions;
 
     protected $templates = array(
         'form' => array(
@@ -49,6 +56,7 @@ class DataGrid implements \IteratorAggregate
     {
         $this->actions = new ActionCollection();
         $this->columns = new ColumnCollection();
+        $this->nativeActions = new ActionCollection();
     }
 
     /**
@@ -70,11 +78,17 @@ class DataGrid implements \IteratorAggregate
         $this->columns->setColumns($columns);
 
         $actions = array();
+        $nativeActions = array();
         foreach ($config['actions'] as $key => $action) {
-            $actions[$key] = $action_manager->create($action);
+
+            /** @var Action $temp */
+            $temp = $action_manager->create($action);
+
+            $temp->isNative() ? $nativeActions[$key] = $temp : $actions[$key] = $temp;
         }
         $this->actions->setActions($actions);
-        
+        $this->nativeActions->setActions($nativeActions);
+
         /**
          * Merge custom templates
          */
@@ -95,10 +109,11 @@ class DataGrid implements \IteratorAggregate
         }
         
     }
-    
+
     /**
      * Get template related to relative name
      * @param string $name
+     * @throws \Exception
      * @return string
      */
     public function template($name)
@@ -144,6 +159,14 @@ class DataGrid implements \IteratorAggregate
     public function getLimit()
     {
         return $this->limit;
+    }
+
+    /**
+     * @return ActionCollection
+     */
+    public function getNativeActions()
+    {
+        return $this->nativeActions;
     }
 
 }
