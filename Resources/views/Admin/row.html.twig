@@ -19,5 +19,22 @@
         {% for action in grid.actions.getByType('object')  %}
             {% include action.template with {'action': action, 'item': item } %}
         {% endfor %}
+
+        <td>
+            <div class="btn-group">
+                {% for action in grid.nativeActions.getByType('object')  %}
+                    <a class="btn {% if action.label == 'Delete' %}btn-danger{% endif %}"
+                       href="{{ path(action.route, { 'id': item.id }) }}">
+                        {% if action.label == 'Delete' %}
+                            <i class="icon-remove"></i>
+                        {% elseif action.label == 'Edit'%}
+                            <i class="icon-edit"></i>
+                        {% else %}
+                        <i class="icon-align-left"></i>
+                        {% endif %}
+                    </a>
+                {% endfor %}
+            </div>
+        </td>
     {% endif %}
 </tr>
