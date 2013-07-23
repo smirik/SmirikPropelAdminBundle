@@ -2,6 +2,7 @@
 
 namespace Smirik\PropelAdminBundle\Column;
 
+use Smirik\PropelAdminBundle\Action\Action;
 use Smirik\PropelAdminBundle\Action\ActionCollection;
 
 class DataGrid implements \IteratorAggregate
@@ -18,6 +19,12 @@ class DataGrid implements \IteratorAggregate
      * @var $actions
      */
     protected $actions;
+
+    /**
+     * All native actions(i.e. edit, delete etc) are stored and displayed separately
+     * @var ActionCollection
+     */
+    protected $nativeActions;
 
     protected $templates = array(
         'form' => array(
@@ -43,24 +50,13 @@ class DataGrid implements \IteratorAggregate
     protected $is_sortable = false;
     protected $is_filterable = false;
 
-    protected $has_avalanche = false;
-    
     protected $limit = 15;
 
     public function __construct()
     {
         $this->actions = new ActionCollection();
         $this->columns = new ColumnCollection();
-    }
-
-    public function setupAvalanche()
-    {
-        $this->has_avalanche = true;
-    }
-    
-    public function hasAvalanche()
-    {
-        return $this->has_avalanche;
+        $this->nativeActions = new ActionCollection();
     }
 
     /**
@@ -82,11 +78,17 @@ class DataGrid implements \IteratorAggregate
         $this->columns->setColumns($columns);
 
         $actions = array();
+        $nativeActions = array();
         foreach ($config['actions'] as $key => $action) {
-            $actions[$key] = $action_manager->create($action);
+
+            /** @var Action $temp */
+            $temp = $action_manager->create($action);
+
+            $temp->isNative() ? $nativeActions[$key] = $temp : $actions[$key] = $temp;
         }
         $this->actions->setActions($actions);
-        
+        $this->nativeActions->setActions($nativeActions);
+
         /**
          * Merge custom templates
          */
@@ -107,10 +109,11 @@ class DataGrid implements \IteratorAggregate
         }
         
     }
-    
+
     /**
      * Get template related to relative name
      * @param string $name
+     * @throws \Exception
      * @return string
      */
     public function template($name)
@@ -156,6 +159,14 @@ class DataGrid implements \IteratorAggregate
     public function getLimit()
     {
         return $this->limit;
+    }
+
+    /**
+     * @return ActionCollection
+     */
+    public function getNativeActions()
+    {
+        return $this->nativeActions;
     }
 
 }
