@@ -1,7 +1,7 @@
 {% if column.view(item) %}
     <a href="{{ column.uploadPath~attribute(item, column.getter) }}">
         {% if grid.hasAvalanche %}
-            <img src="{{ column.uploadPath~attribute(item, column.getter) }}" style="max-width: 100px;">
+            <img src="{{ asset(column.uploadPath~attribute(item, column.getter))|apply_filter('propel_admin_preview') }}">
         {% else %}
             <img src="{{ column.uploadPath~attribute(item, column.getter) }}" width="100">
         {% endif %}
