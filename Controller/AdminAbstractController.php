@@ -75,6 +75,9 @@ abstract class AdminAbstractController extends Controller
         $action_manager = $this->get('admin.action.manager');
         $column_manager = $this->get('admin.column.manager');
         $this->grid->load($yaml, $column_manager, $action_manager);
+        if (array_key_exists('AvalancheImagineBundle', $this->container->getParameter('kernel.bundles'))) {
+            $this->grid->setupAvalanche();
+        }
     }
 
     public function getPaginate()
@@ -202,9 +205,13 @@ abstract class AdminAbstractController extends Controller
 
         $form = $this->createForm($this->getForm(), $this->object);
 
+        $file_columns = $this->grid->getColumns()->getFileColumns();
+        $default_values = $this->get('admin.upload_file.manager')->getDefaultValues($file_columns, $this->object);
+
         if ('POST' == $request->getMethod()) {
             $form->bind($request);
             if ($form->isValid()) {
+                $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
                 $this->object->save();
 
                 return $this->redirect($this->generateUrl($this->routes['index']));
@@ -245,9 +252,13 @@ abstract class AdminAbstractController extends Controller
         $request = $this->getRequest();
         $form    = $this->createForm($this->getForm(), $this->object);
 
+        $file_columns = $this->grid->getColumns()->getFileColumns();
+        $default_values = $this->get('admin.upload_file.manager')->getDefaultValues($file_columns, $this->object);
+
         if ('POST' == $request->getMethod()) {
             $form->bind($request);
             if ($form->isValid()) {
+                $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
                 $this->object->save();
 
                 return $this->redirect($this->generateUrl($this->routes['index']));
