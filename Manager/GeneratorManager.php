@@ -5,6 +5,9 @@ namespace Smirik\PropelAdminBundle\Manager;
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\Yaml\Dumper;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOException;
+
 class GeneratorManager extends ContainerAware
 {
     
@@ -16,13 +19,20 @@ class GeneratorManager extends ContainerAware
     /**
      * @var string $dir
      * @var object $output
+     * @var Symfony\Component\Filesystem\Filesystem $fs
      * @return bool
      */
-    public function checkDirectory($dir, $output)
+    public function checkDirectory($dir, $output, $fs)
     {
         if (!is_dir($dir)) {
             $output->writeln(array('', '<comment>Creating directory '.$dir, ''));
-            system('mkdir -p '.$dir);
+            
+            try {
+                $fs->mkdir($dir);
+            } catch (IOException $e) {
+                echo "An error occurred while creating your directory";
+            }
+            
             if (!is_dir($dir)) {
                 $output->writeln(array('', '<error>Error: cannot create '.$dir.'. Please create it manually.</error>', ''));
 
@@ -44,8 +54,10 @@ class GeneratorManager extends ContainerAware
         $propel_admin_dir = $base_path.'/Resources/config/PropelAdmin';
         $form_type_dir    = $base_path.'/Form/Type/Base';
         $controller_dir   = $base_path.'/Controller/Base';
+        
+        $fs = new Filesystem();
 
-        if ($this->checkDirectory($propel_admin_dir, $output) && $this->checkDirectory($form_type_dir, $output) && $this->checkDirectory($controller_dir, $output)) {
+        if ($this->checkDirectory($propel_admin_dir, $output, $fs) && $this->checkDirectory($form_type_dir, $output, $fs) && $this->checkDirectory($controller_dir, $output, $fs)) {
             return true;
         }
 
