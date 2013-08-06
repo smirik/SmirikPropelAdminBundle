@@ -13,10 +13,10 @@
         {% endfor %}
     {% if not options.hide_actions is defined or (options.hide_actions is defined and not options.hide_actions) %}
         {% for action in grid.actions.getByType('object') %}
-            <td class="filter-action-{{ action.name|lower }} object-action"></td>
+            <td class="filter-action-{{ action.name|lower }} object-action propel-admin-action"></td>
         {% endfor %}
         {% if grid.nativeActions.getByType('object')|length %}
-            <td class="object-action"></td>
+            <td class="object-action propel-admin-native-actions"></td>
         {% endif %}
     {% endif %}
 </tr>
