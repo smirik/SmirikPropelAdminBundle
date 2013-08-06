@@ -33,6 +33,8 @@ or via CLI:
 $ php composer.phar require smirik/propel-admin-bundle
 ```
 
+**Note**: for old version use `1.0.x` branch.
+
 Update vendors:
 
 ``` bash
@@ -74,6 +76,19 @@ twig:
 
 ```
 
+Include javascripts & stylesheets into your layout:
+
+``` twig
+{% stylesheets
+     '@SmirikPropelAdminBundle/Resources/public/css/*' %}
+     <link rel="stylesheet" href="{{ asset_url }}"/>
+ {% endstylesheets %}
+ 
+{% javascripts '@SmirikPropelAdminBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+```
 
 ### That's all!
 
