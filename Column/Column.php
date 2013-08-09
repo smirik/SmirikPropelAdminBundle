@@ -47,13 +47,30 @@ abstract class Column implements ColumnInterface
         'list'   => 'SmirikPropelAdminBundle:Admin/Column:%s.html.twig',
     );
     protected $templates;
+    
+    protected $keys             = array('name', 'label', 'type', 'options', 'templates');
+    protected $required_keys    = array('name', 'label', 'type');
+    protected $required_options = array();
 
     public function setup($options)
     {
-        $keys = array('name', 'label', 'type', 'options', 'templates');
-
+        /**
+         * Validate required keys & options
+         */
+        foreach ($this->required_keys as $required_key) {
+            if (!array_key_exists($required_key, $options)) {
+                throw new ColumnRequiredConfigException('Column "'.$required_key.'" not specified in config.');
+            }
+        }
+        
+        foreach ($this->required_options as $required_option) {
+            if (!isset($options['options'][$required_option])) {
+                throw new ColumnRequiredConfigException('Column "'.$required_key.'" not specified in config.');
+            }
+        }
+        
         foreach ($options as $key => $option) {
-            if (in_array($key, $keys)) {
+            if (in_array($key, $this->keys)) {
                 $this->$key = $option;
             }
         }

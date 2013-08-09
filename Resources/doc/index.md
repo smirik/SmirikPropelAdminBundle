@@ -111,7 +111,22 @@ Other demo screenshots:
 * [Filtering the results](https://github.com/smirik/SmirikPropelAdminDemo/tree/master/src/Smirik/PropelAdminDemoBundle/Resources/doc/demo-02.png)
 * [Edit form](https://github.com/smirik/SmirikPropelAdminDemo/tree/master/src/Smirik/PropelAdminDemoBundle/Resources/doc/demo-03.png)
 
-### See also
+### Contribution & Tests
+
+To run test suite install dependencies:
+``` bash
+php composer.phar install
+```
+
+and run `phpspec` test suite:
+
+``` bash
+bin/phpspec run
+```
+
+Any contribution & pull requests are welcome. `git-flow` is used for this project, that's why use `develop` branch for new features. `master` branch is used only for hotfixes & stable releases.
+
+### Documentation
 
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
