@@ -26,7 +26,7 @@ abstract class BuilderManager extends ContainerAware
      * @var array $options
      * @return array
      */
-    protected function useDefaults($options)
+    public function useDefaults($options)
     {
         $finder = $this->getStandard();
         if (isset($options['extends']))

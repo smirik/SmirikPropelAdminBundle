@@ -24,7 +24,7 @@ class ActionManager extends BuilderManager
      * Loads standard templates
      * @return object
      */
-    protected function getStandard()
+    public function getStandard()
     {
         $kernel = $this->container->get('kernel');
         $path   = $kernel->locateResource('@SmirikPropelAdminBundle/Action/Template/');

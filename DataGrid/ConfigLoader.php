@@ -64,7 +64,6 @@ class ConfigLoader
         /**
          * Load columns & actions
          */
-
         $actions_array = array();
         $native_actions_array = array();
         foreach ($config['actions'] as $key => $action) {
