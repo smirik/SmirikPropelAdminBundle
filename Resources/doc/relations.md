@@ -82,3 +82,5 @@ comments:
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
 - [How to handle file uploads](upload.md)
+- [AJAX chain builder](chain.md)
+- [Publish & unpublish action](publish.md)

@@ -99,12 +99,12 @@ SmirikPropelAdminBundle provides 3 standard action builders:
 * single. It allows to create single action such as `create`. It does not have `object_id`, it is only a link based on provided `route`.
 * object. It creates action based on `route` and current `object_id`. It adds action to each object in the table view.
 * ajax_object. Based on object action. It creates ajax action for each object & opens modal window with the content provided by `route` response. *Works in test mode*.
-* ajax_flag. Allows to create flag-based actions with 2 possible statuses.
+* chain. Allows to create chain-based actions with several statuses.
 
 
-#### AJAX-flag action
+#### Chain action
 
-See the [documentation](ajax-flag.md)
+See the [documentation](chain.md)
 
 #### Overriding templates
 

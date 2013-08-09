@@ -5,7 +5,7 @@ SmirikPropelAdminBundle is a missing admin generator for Symfony2. It allows to 
 
 ## Prerequisites
 
-* Symfony 2.1+
+* Symfony 2.3+
 * PHP 5.3+
 * Bootstrap is not required but highly recommended
 
@@ -118,3 +118,6 @@ Other demo screenshots:
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
 - [How to handle file uploads](upload.md)
+- [Publish & unpublish action](publish.md)
+- [AJAX chain builder](chain.md)
+- [Publish & unpublish action](publish.md)

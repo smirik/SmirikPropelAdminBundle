@@ -39,7 +39,7 @@ $(document).on('ready', function (e) {
         return body;
     }
 
-    $(document).on('click', 'a.ajax_flag', function (e) {
+    $(document).on('click', 'a.chain', function (e) {
             e.preventDefault();
             /* @todo multiple choices */
             /* @todo refactoring */
@@ -64,14 +64,29 @@ $(document).on('ready', function (e) {
             }, 'json');
         });
     
-    $(document).on('click', '*[data-ajax=true]', function (e) {
+    $(document).on('click', 'a.ajaxable', function (e) {
         e.preventDefault();
         var button = $(e.target);
+        if (!button.attr('data-url'))
+        {
+            var button = button.parent();
+        }
         button.ajaxable('request');
         button.attr('disabled', true);
         button.on('done', function (e) {
             button.attr('disabled', false);
         });
+    });
+    
+    $(document).on('click', 'input#select-all-checkbox', function(e){
+        var select_all_checkbox = $('input:checkbox#select-all-checkbox');
+        if (select_all_checkbox.prop('checked'))
+        {
+            $('input.admin_item_checkbox').prop('checked', "checked");
+        } else
+        {
+            $('input.admin_item_checkbox').prop('checked', false);
+        }
     });
     
 });

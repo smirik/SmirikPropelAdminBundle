@@ -24,6 +24,10 @@ admin_**model_prefix**_new:
     pattern: /**model_prefix**/new
     defaults: { _controller: **Controller**:new }
 
-admin_**model_prefix**_enable:
-    pattern: /**model_prefix**/enable
-    defaults: { _controller: **Controller**:enable }
+admin_**model_prefix**_chain:
+    pattern: /**model_prefix**/chain
+    defaults: { _controller: **Controller**:chain }
+
+admin_**model_prefix**_publish:
+    pattern: /**model_prefix**/publish
+    defaults: { _controller: **Controller**:publish }

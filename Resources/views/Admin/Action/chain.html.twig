@@ -1,0 +1,5 @@
+<td class="center propel-admin-action">
+    <a data-url="{{ path(action.route, { 'id': item.id, 'data': action.nextValue(item), 'setter': action.setter, 'status': action.nextValue(item) }) }}" data-target="#object{{ item.id }}" data-ajax="true" class="btn input-block-level ajaxable" href="{{ path(action.route, { 'id': item.id, 'data': action.nextValue(item), 'setter': action.setter, 'status': action.nextValue(item) }) }}">
+        {{ action.view(item)|trans|raw }}
+    </a>
+</td>

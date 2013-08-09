@@ -101,7 +101,7 @@ abstract class Column implements ColumnInterface
 
     public function getGetter()
     {
-        return $this->replaceUnderscore($this->name);
+        return \Symfony\Component\DependencyInjection\Container::camelize($this->name);
     }
     
     public function getValue($item)
@@ -109,30 +109,6 @@ abstract class Column implements ColumnInterface
         $getter = 'get'.$this->getGetter();
         return $item->{$getter}();
     }
-
-    /**
-     * Replaces underscores in the method name
-     *
-     * @method replaceUnderscore
-     * @param  string $method
-     * @return string
-     */
-    public function replaceUnderscore($method = false)
-    {
-        if (!$method) {
-            return false;
-        }
-        $arr = explode('_', $method);
-        $new = '';
-        if (count($arr)) {
-            foreach ($arr as $key => $value) {
-                $new .= ucfirst($value);
-            }
-        }
-
-        return $new;
-    }
-    
 
     /**
      * @return array

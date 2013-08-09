@@ -1,0 +1,11 @@
+label:   Publish
+name:    is_active
+builder: publish
+options:
+    route_with_id: true
+    confirmation: false
+    template: SmirikPropelAdminBundle:Admin/Action:publish.html.twig
+    filter: SmirikPropelAdminBundle:Admin/Action/Filter:publish.html.twig 
+data:
+    - { key: 0, text: '<i class="icon-plus"></i>' }
+    - { key: 1, text: '<i class="icon-minus"></i>' }

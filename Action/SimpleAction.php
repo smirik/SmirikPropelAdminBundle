@@ -12,7 +12,7 @@ class SimpleAction extends Action
     
     public function getType()
     {
-        return 'simple';
+        return 'object';
     }
 
 }

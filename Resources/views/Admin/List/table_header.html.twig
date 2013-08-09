@@ -13,8 +13,13 @@
             </th>
         {% endif %}
     {% endfor %}
-    {% if options.hide_actions is defined and not options.hide_actions %}
-        <th>{{ "Actions"|trans }}</th>
+    {% if not options.hide_actions is defined or (options.hide_actions is defined and not options.hide_actions) %}
+        {% for action in grid.actions.getByType('object') %}
+            <th class="object-action-header propel-admin-action-header">{{ action.label|trans }}</th>
+        {% endfor %}
+        {% if grid.nativeActions.getByType('object')|length %}
+            <th class="object-action-header propel-admin-native-actions-header" colspan="{{ grid.nativeActions.getByType('object')|length }}">{{ 'Actions'|trans }}</th>
+        {% endif %}
     {% endif %}
 </tr>
 </thead>

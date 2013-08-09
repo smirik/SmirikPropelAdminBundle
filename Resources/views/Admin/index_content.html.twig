@@ -10,6 +10,6 @@
 
     </table>
 </form>
-{% include grid.template('list.mass_actions') with {'grid': grid} %}
 
+{% include grid.template('list.mass_actions') with {'grid': grid} %}
 {% include grid.template('list.paginate') with {'routes': routes, 'page': page, 'sort': sort, 'sort_type': sort_type, 'filter': filter, 'options': options, 'collection': collection} %}

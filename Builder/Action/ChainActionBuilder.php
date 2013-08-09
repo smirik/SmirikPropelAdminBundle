@@ -2,14 +2,14 @@
 
 namespace Smirik\PropelAdminBundle\Builder\Action;
 
-use Smirik\PropelAdminBundle\Action\AjaxObjectAction;
+use Smirik\PropelAdminBundle\Action\ChainAction;
 
-class AjaxObjectActionBuilder implements ActionBuilderInterface
+class ChainActionBuilder implements ActionBuilderInterface
 {
 
     public function create($options)
     {
-        $action = new AjaxObjectAction();
+        $action = new ChainAction();
         $action->setup($options);
         return $action;
     }

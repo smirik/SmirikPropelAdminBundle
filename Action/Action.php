@@ -13,7 +13,7 @@ abstract class Action implements ActionInterface
      * @var string $label
      */
     public $label;
-    
+
     /**
      * @var array
      */
@@ -36,7 +36,7 @@ abstract class Action implements ActionInterface
      * @var boolean $confirmation --- js confirmation before action
      */
     protected $confirmation = false;
-    
+
     /**
      * @var string $template -- template for action
      */
@@ -58,12 +58,10 @@ abstract class Action implements ActionInterface
                 $this->$key = $option;
             }
         }
-        
-        foreach ($this->required_keys as $key)
-        {
-            if (!array_key_exists($key, $options))
-            {
-                throw new \Exception('PropelAdminBundle: Required action config '.$key.' not found.');
+
+        foreach ($this->required_keys as $key) {
+            if (!array_key_exists($key, $options)) {
+                throw new ActionRequiredConfigException('PropelAdminBundle: Required action config '.$key.' not found.');
             }
             $this->$key = $options[$key];
         }
@@ -88,19 +86,48 @@ abstract class Action implements ActionInterface
     {
         return $this->name;
     }
-    
+
     public function getTemplate()
     {
-        if ($this->template)
-        {
+        if ($this->template) {
             return $this->template;
         }
+
         return 'SmirikPropelAdminBundle:Admin/Action:'.$this->getAlias().'.html.twig';
     }
 
     public function isNative()
     {
         return in_array(strtolower($this->getName()), array('edit', 'delete'));
+    }
+
+    public function hasFilter()
+    {
+        if (isset($this->options['filter'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getFilter()
+    {
+        return $this->options['filter'];
+    }
+    
+    public function getKeys()
+    {
+        return $this->keys;
+    }
+    
+    public function getRequiredKeys()
+    {
+        return $this->required_keys;
+    }
+    
+    public function setTemplate($template)
+    {
+        $this->template = $template;
     }
 
 }

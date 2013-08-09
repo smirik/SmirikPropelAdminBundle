@@ -1,7 +1,7 @@
-AJAX-flag based actions
+Chain based actions
 =======================
 
-PropelAdminBundle has already the functionality for standard *enable* action. The simple configuration is:
+PropelAdminBundle has already the functionality for `status` field: active / inactive or unreviewed / approved / rejected e.t.c. The simple configuration is:
 
 ``` yaml
 actions:
@@ -18,7 +18,7 @@ That's it. Standard enable action is already activated by `propeladmin:generate:
 custom_field:
     label:   Custom Field
     name:    custom_field
-    builder: ajax_flag
+    builder: chain
     options:
         route_with_id: true
         confirmation: false
@@ -31,13 +31,13 @@ custom_field:
 
 All configs except confirmation are required. It is required to use autoincrement keys starting from 0. You may use any integer but then you have to write a bijective transformer.
 
-### Standard action: enable
+### Standard action: chain
 
-You may use standard *enable* action to provide enable/disable functionality for any number of fields. It requires full declaration of action as written above. You don't need to create new action in controller or declare new routing in `routing.yml`. It is already built in.
+You may use standard *chain* action to provide chain functionality for any number of fields. It requires full declaration of action as written above. You don't need to create new action in controller or declare new routing in `routing.yml`. It is already built in.
 
 ### How it works
 
-The `ajax_flag` action provides *chain functionality*. It means that it will update the row from 0 to the last value specified in *data* section of configs. Of course you can specify not only 2 possible statuses but as many as you need, e.g.:
+The `chain` action provides *chain functionality*. It means that it will update the row from 0 to the last value specified in *data* section of configs. Of course you can specify not only 2 possible statuses but as many as you need, e.g.:
 
 ``` yaml
 custom_field:

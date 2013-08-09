@@ -23,3 +23,9 @@ Image: Изображение
 File: Файл
 
 Is_active: Включен
+
+Publish: Включить
+Unpublish: Выключить
+
+Published: Видимые
+Unpublished: Скрытые

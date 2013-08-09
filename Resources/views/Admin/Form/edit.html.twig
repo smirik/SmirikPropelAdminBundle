@@ -3,11 +3,11 @@
 {% block content %}
 
     {% block admin_action_edit_title %}
-        <h2>{{ 'Edit of'|trans }}</h2>
     {% endblock %}
 
     <form class="form form-horizontal" action="{{ path(routes.update, {"id": form.vars.value.id }) }}" method="post" {{ form_enctype(form) }}>
-        <div class="well">
+        <legend>{{ 'Edit'|trans }}</legend>
+        <div class="propel-admin-form propel-admin-edit-form">
             {{ form_errors(form) }}
             {% for column in columns %}
                 {% if column.editable %}
