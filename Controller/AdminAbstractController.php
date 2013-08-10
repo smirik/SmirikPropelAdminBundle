@@ -31,8 +31,6 @@ abstract class AdminAbstractController extends AdminAbstractConfigurationControl
         $collection = $collection_query
             ->paginate($this->page, $this->limit);
 
-        $ajax = false;
-
         $response = array(
             'collection' => $collection,
             'page'       => $this->page,
@@ -43,7 +41,6 @@ abstract class AdminAbstractController extends AdminAbstractConfigurationControl
             'routes'     => $this->routes,
             'grid'       => $this->get('admin.data.grid'),
             'name'       => $this->name,
-            'ajax'       => $ajax,
             'sort'       => $sort,
             'sort_type'  => $sort_type,
             'filter'     => json_encode($filter),
@@ -136,11 +133,11 @@ abstract class AdminAbstractController extends AdminAbstractConfigurationControl
     {
         $this->initialize();
 
-        $id     = (int) $this->getRequest()->query->get('id', false);
-
+        $id = (int) $this->getRequest()->query->get('id', false);
         if (!$id) {
             return new JsonResponse(array('status' => -1));
         }
+        
         $obj = $this->getQuery()->findPk($id);
         if (!$obj) {
             return new JsonResponse(array('status' => -2));
@@ -151,6 +148,7 @@ abstract class AdminAbstractController extends AdminAbstractConfigurationControl
         } else {
             $obj->publish();
         }
+        
         $obj->save();
 
         if ($this->getRequest()->isXmlHttpRequest()) {

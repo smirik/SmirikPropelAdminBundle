@@ -79,12 +79,36 @@ services:
         tags:
             - { name: smirik_propel_admin.column.builder, alias: file }
     
-    admin.generator.manager:
-        class: Smirik\PropelAdminBundle\Manager\GeneratorManager
-        calls:
-            - [ setContainer, [ "@service_container" ]]
-    
     admin.upload_file.manager:
         class: Smirik\PropelAdminBundle\Manager\UploadFileManager
         calls:
           - [ setContainer, [ "@service_container" ] ]
+
+    admin.generator.manager:
+        class: Smirik\PropelAdminBundle\Manager\GeneratorManager
+        calls:
+            - [ setContainer, [ "@service_container" ]]
+
+    admin.console.controller.dialog:
+        class: Smirik\PropelAdminBundle\Command\Dialog\ControllerDialog
+        calls:
+            - [ setConfigurator, [ "@admin.console.controller.configurator" ] ]
+
+    admin.console.controller.configurator:
+        class: Smirik\PropelAdminBundle\Command\Configurator\ControllerConfigurator
+
+    admin.console.column.dialog:
+        class: Smirik\PropelAdminBundle\Command\Dialog\ColumnDialog
+        calls:
+            - [ setConfigurator, [ "@admin.console.column.configurator" ] ]
+
+    admin.console.column.configurator:
+        class: Smirik\PropelAdminBundle\Command\Configurator\ColumnConfigurator
+
+    admin.console.action.dialog:
+        class: Smirik\PropelAdminBundle\Command\Dialog\ActionDialog
+        calls:
+            - [ setConfigurator, [ "@admin.console.action.configurator" ] ]
+
+    admin.console.action.configurator:
+        class: Smirik\PropelAdminBundle\Command\Configurator\ActionConfigurator

@@ -154,5 +154,29 @@ abstract class Column implements ColumnInterface
         return $this->name;
     }
     
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+    
+	public function setOptions($options)
+	{
+		$this->options = $options;
+	}
+
+	public function getOptions()
+	{
+		return $this->options;
+	}
+ 
+	public function setLabel($label)
+	{
+		$this->label = $label;
+	}
+
+	public function getLabel()
+	{
+		return $this->label;
+	}
 
 }

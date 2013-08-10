@@ -9,7 +9,9 @@ $(document).on('ready', function (e) {
         linkToContent(this);
     });
 
-    loadContent(default_route);
+    if (typeof default_route !=="undefined"){
+        loadContent(default_route);
+    }
     $(document).on("click", ".btn-danger", function (e) {
         e.preventDefault();
         if (confirm(default_confirm_message)) {

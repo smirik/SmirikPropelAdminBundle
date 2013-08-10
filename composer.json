@@ -14,6 +14,7 @@
     ],
     "require": {
         "symfony/symfony": ">=2.3,<2.4-dev",
+        "symfony/console": ">=2.3,<2.4-dev",
         "propel/propel-bundle": "1.*",
         "willdurand/propel-typehintable-behavior": "*",
         "phpspec/phpspec": "2.0.*@dev"
