@@ -12,7 +12,7 @@ actions:
     ...
 ```
 
-That's it. Standard enable action is already activated by `propeladmin:generate:routing` command. This configuration will work only for simple boolean field called `is_active`. If you wish to set up custom field, use the full declaration:
+That's it. Chain action is enabled by default in `propel:admin:generate` command. This configuration will work only for simple boolean field called `is_active`. If you wish to set up custom field, use the full declaration:
 
 ``` yaml
 custom_field:
@@ -29,11 +29,11 @@ custom_field:
         - { key: 1, text: 'Status1' }
 ```
 
-All configs except confirmation are required. It is required to use autoincrement keys starting from 0. You may use any integer but then you have to write a bijective transformer.
+All configs except confirmation are required. You may use any integer but then you have to write a bijective transformer.
 
 ### Standard action: chain
 
-You may use standard *chain* action to provide chain functionality for any number of fields. It requires full declaration of action as written above. You don't need to create new action in controller or declare new routing in `routing.yml`. It is already built in.
+You may use standard *chain* action to provide chain status change functionality for any number of statuses. It requires full declaration of action as written above. You don't need to create new action in controller or declare new routing in `routing.yml`. It is already built in.
 
 ### How it works
 
@@ -91,6 +91,7 @@ class MyModel extends BaseMyModel
 
 ### See also
 
+- [Index](index.md)
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)

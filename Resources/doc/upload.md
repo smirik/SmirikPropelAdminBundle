@@ -1,7 +1,7 @@
 File & image uploading
 ======================
 
-PropelAdminBundle supports file & image uploading due to standard FileColumn. 
+PropelAdminBundle supports file & image uploading with standard FileColumn. 
 
 #### Files
 
@@ -49,10 +49,12 @@ image:
     extends: image
 ```
 
-Form declaration is the same, the only difference is in views.
+Form d
+eclaration is the same, the only difference is in views.
 
-*See also*:
+### See also
 
+- [Index](index.md)
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)

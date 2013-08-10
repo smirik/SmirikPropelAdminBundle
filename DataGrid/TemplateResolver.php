@@ -12,9 +12,10 @@ class TemplateResolver
 
     /**
      * Propel admin templates
+     * @todo Generally, it should be protected, but then need in addTemplate, update methods with custom logic.
      * @var array $templates
      */
-    protected $templates = array();
+    public $templates = array();
 
     public function __construct($container)
     {
@@ -55,29 +56,6 @@ class TemplateResolver
                 }
             }
             $this->templates = $templates;
-        }
-    }
-
-    /**
-     * Find template by name
-     * @param  string $name
-     * @return string
-     */
-    public function find($name)
-    {
-        /**
-         * @todo refactoring
-         */
-        $tmp = explode('.', $name);
-        $num = count($tmp);
-        if ($num == 1) {
-            return $this->templates[$name];
-        } elseif ($num == 2) {
-            if (!isset($this->templates[$tmp[0]][$tmp[1]])) {
-                throw new \Exception('Template not found');
-            }
-
-            return $this->templates[$tmp[0]][$tmp[1]];
         }
     }
 

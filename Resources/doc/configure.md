@@ -37,7 +37,7 @@ For now it is supported:
 * image
 * default
 
-Of course you can override any data, e.g. name:
+Of course you can override any data, e.g. label:
 
 ``` yaml
 is_active:
@@ -47,7 +47,7 @@ is_active:
 
 #### Overriding column's templates
 
-Each column has own template based on type. E.g. boolean columns have 2 templates: 1th for filtering the results (dropdown yes/no) and 2th for listing (OK icon or FAIL icon). You can specify in config the template for each column:
+Each column has its own templates based on type. E.g. boolean columns have 2 templates: 1th for filtering the results (dropdown with yes/no) and 2th for listing (OK icon or FAIL icon). You can specify in config the template for each column:
 
 ``` yaml
 is_active:
@@ -58,10 +58,12 @@ is_active:
         list:   'AcmeDemoBundle:Admin/Column:custom-list.html.twig'
 ```
 
+Checkout default templates in `@SmirikPropelAdminBundle/Resources/views/Admin/Column/` and `@SmirikPropelAdminBundle/Resources/views/Admin/Filter/`.
+
 ## Action configuration
 
 #### General
-Generally action's configuration is pretty the same as written above. There are 3 built-in actions: `create, edit, delete`.
+Generally action's configuration is pretty the same as written above. There are 5 built-in actions: `create, edit, delete, publish, chain`.
 
 ``` yaml
 create:
@@ -73,9 +75,15 @@ edit:
 delete:
     route:   admin_tests_delete
     extends: delete
+publish:
+    route:   admin_tests_publish
+    extends: publish
+chain:
+    route:   admin_tests_chain
+    extends: chain
 ```
 
-The full list of options depends on [builder](builders.md). For example, object builder has the following configuration:
+The full list of options depends on [builder](builders.md). For example, `object` builder has the following configuration:
 
 ``` yaml
 assign:
@@ -98,7 +106,8 @@ SmirikPropelAdminBundle provides 3 standard action builders:
 
 * single. It allows to create single action such as `create`. It does not have `object_id`, it is only a link based on provided `route`.
 * object. It creates action based on `route` and current `object_id`. It adds action to each object in the table view.
-* ajax_object. Based on object action. It creates ajax action for each object & opens modal window with the content provided by `route` response. *Works in test mode*.
+* simple. Based on object action. It creates ajax action for each object & opens modal window with the content provided by `route` response. *Works in test mode*.
+* publish. Allows to enable publish/unpublish functionality for object. Based on [Publishable behavior](https://github.com/willdurand/PublishableBehavior).
 * chain. Allows to create chain-based actions with several statuses.
 
 
@@ -108,37 +117,34 @@ See the [documentation](chain.md)
 
 #### Overriding templates
 
-Action has one template related to list view in table. You can override it providing `template` attribute in config file. Each action builder type has default view located in `Resources/view/Admin/Action`.
+Action has one template related to list view in table. You can override it providing `template` attribute in config file. Each action builder type has default view located in `@SmirikPropelAdminBundle/Resources/view/Admin/Action`. You can easily override these template.
 
-## Grid configuration
+## Templates configuration
 
-SmirikPropelAdminBundle provides flexible way to override any template using by `DataGrid`. Here is default configuration:
+SmirikPropelAdminBundle provides flexible way to override any template using by `TemplateResolver` service. Default templates are specified in `@SmirikPropelAdminBundle/Resources/config/config.yml` under `smirik\_propel\_admin` section.
 
 ``` yaml
-columns:
-    ...
-actions:
-    ...
-templates:
-    form
-        edit:   SmirikPropelAdminBundle:Admin/Form:edit.html.twig
-        new:    SmirikPropelAdminBundle:Admin/Form:new.html.twig
-        fields: SmirikPropelAdminBundle:Admin/Form:fields.html.twig
-    list: array(
-        mass_actions:   SmirikPropelAdminBundle:Admin/List:mass_actions.html.twig
-        paginate:       SmirikPropelAdminBundle:Admin/List:paginate.html.twig
-        single_actions: SmirikPropelAdminBundle:Admin/List:single_actions.html.twig
-        table_filters:  SmirikPropelAdminBundle:Admin/List:table_filters.html.twig
-        table_header:   SmirikPropelAdminBundle:Admin/List:table_header.html.twig
-    index:         SmirikPropelAdminBundle:Admin:index.html.twig
-    index_content: SmirikPropelAdminBundle:Admin:index_content.html.twig
-    row:           SmirikPropelAdminBundle:Admin:row.html.twig
+smirik_propel_admin:
+    templates:
+        form:
+            edit:   'SmirikPropelAdminBundle:Admin/Form:edit.html.twig'
+            new:    'SmirikPropelAdminBundle:Admin/Form:new.html.twig'
+            fields: 'SmirikPropelAdminBundle:Admin/Form:fields.html.twig'
+        list:
+            mass_actions: 'SmirikPropelAdminBundle:Admin/List:mass_actions.html.twig'
+            paginate : 'SmirikPropelAdminBundle:Admin/List:paginate.html.twig'
+            single_actions: 'SmirikPropelAdminBundle:Admin/List:single_actions.html.twig'
+            table_filters: 'SmirikPropelAdminBundle:Admin/List:table_filters.html.twig'
+            table_header : 'SmirikPropelAdminBundle:Admin/List:table_header.html.twig'
+        index : 'SmirikPropelAdminBundle:Admin:index.html.twig'
+        index_content : 'SmirikPropelAdminBundle:Admin:index_content.html.twig'
+        row : 'SmirikPropelAdminBundle:Admin:row.html.twig'
 ```
 
-You can override any template listed above. The default content is in `Resources/views/Admin` folder.
+You can override any template listed above. The default content is in `@SmirikPropelAdminBundle/Resources/views/Admin`. Use `templates` attribute `admin.template.resolver` service. 
 
 ### See also
-
+- [Index](index.md)
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)

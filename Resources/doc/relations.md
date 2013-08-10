@@ -75,8 +75,9 @@ comments:
 
 > You have to check that `Comment` class has mehods `getComments`.
 
-*See also*:
+### See also
 
+- [Index](index.md)
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)

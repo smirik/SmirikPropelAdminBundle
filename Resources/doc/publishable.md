@@ -3,10 +3,9 @@ Publishable out of the box
 
 There is a great [Publishable behavior](https://github.com/willdurand/PublishableBehavior) for Propel. It allows you to add publish/unpublish objects via `publishable` behavior. `PropelAdminBundle` supports this behavior out of the box. There are several steps how to setup it.
 
-
 ### Step 0. Behavior
 
-Check that your model has already implemented `publishable` behavior. Your `Query` class should have `includeUnpublished` method, your model should have `publish` and `unpublish` methods. 
+Check that you have already implemented `publishable` behavior. Your model should have `publish` and `unpublish` methods. 
 
 ### Step 1. Yaml configuration
 
@@ -51,30 +50,17 @@ admin_%mcontroller_name%_publish:
   defaults: { _controller: AcmeDemoBundle:DefaultController:Publish }
 ```
 
-### Step 3. Include unpublished
-
-By default all unpublished entities are excluded from any SELECT. But for admin panel we have to include them. For this case we have to rewrite `getQuery` method in your AdminController class:
-
-
-``` php
-<?php
-
-class AdminDemoController extends BaseController
-{
-    
-	public function getQuery()
-	{
-		return \Acme\DemoBundle\Model\DemoQuery::create()->includeUnpublished();
-	}
-```
+Publish is a standard action. That's why it is already enabled if you have used console build command.
 
 That's it. Now it will work out of the box including filtering. If your model has more statuses (like unreviewed, approved, rejected) then you can use [chain](chain.md) action builder.
 
 ### See also
 
+- [Index](index.md)
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
 - [How to handle file uploads](upload.md)
 - [AJAX chain builder](chain.md)
+- [Publish & unpublish action](publish.md)

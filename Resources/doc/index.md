@@ -1,7 +1,7 @@
 Getting started
 ===============
 
-SmirikPropelAdminBundle is a missing admin generator for Symfony2. It allows to create config-based flexible administrative tool for any propel data. It works "out of the box". You only need to install it & run the console command.
+SmirikPropelAdminBundle is a missing admin generator for Symfony2. It allows to create config-based flexible administrative tool for any propel data. It works "out of the box". You only need to install it & run the console command. `SmirikPropelAdminBundle` is also fully documentated & tested with [phpspec](https://github.com/phpspec/phpspec).
 
 ## Prerequisites
 
@@ -133,6 +133,5 @@ Any contribution & pull requests are welcome. `git-flow` is used for this projec
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
 - [How to handle file uploads](upload.md)
-- [Publish & unpublish action](publish.md)
 - [AJAX chain builder](chain.md)
 - [Publish & unpublish action](publish.md)
