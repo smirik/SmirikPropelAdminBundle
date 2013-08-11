@@ -1,6 +1,8 @@
 SmirikPropelAdminBundle
 =======================
 
+[![Build Status](https://travis-ci.org/smirik/SmirikPropelAdminBundle.png)](https://travis-ci.org/smirik/SmirikPropelAdminBundle)
+
 SmirikPropelAdminBundle is a missing admin generator for Symfony2. It allows to create config-based flexible administrative tool for any propel data. It works "out of the box". You only need to install it & run the console command.
 
 Features:
