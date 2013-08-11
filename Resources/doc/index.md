@@ -13,6 +13,14 @@ SmirikPropelAdminBundle is a missing admin generator for Symfony2. It allows to 
 
 All text data used in the bundle are translatable. Use translation files to provide custom translations.
 
+### What's new?
+
+**August, 10, 2013**
+
+* [1.1.x] Add `publish` standard action (related to [publishable](https://github.com/willdurand/PublishableBehavior) behavior).
+* [1.1.x] Filtering option for `publish` and `chain` actions (no more 2 different columns with status & action).
+* [1.1.x] Autocomplete in console command `propel:admin:build`.
+* [1.1.x] Add save-and-return submit button for new and edit actions.
 
 ## Installation
 ### Step 1: Download SmirikPropelAdminBundle via composer

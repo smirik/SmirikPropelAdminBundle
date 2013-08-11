@@ -98,8 +98,13 @@ abstract class AdminAbstractController extends AdminAbstractConfigurationControl
             if ($form->isValid()) {
                 $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
                 $this->object->save();
-
-                return $this->redirect($this->generateUrl($this->routes['index']));
+                
+                $save_and_return = $this->getRequest()->request->get('save_and_return', false);
+                if ($save_and_return === false) {
+                    return $this->redirect($this->generateUrl($this->routes['index']));
+                } else {
+                    return $this->redirect($this->generateUrl($this->routes['edit'], array('id' => $this->object->getId())));
+                }
             }
         }
 

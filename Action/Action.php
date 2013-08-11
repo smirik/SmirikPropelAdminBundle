@@ -61,7 +61,7 @@ abstract class Action implements ActionInterface
 
         foreach ($this->required_keys as $key) {
             if (!array_key_exists($key, $options)) {
-                throw new ActionRequiredConfigException('PropelAdminBundle: Required action config '.$key.' not found.');
+                throw new ActionRequiredConfigException('PropelAdminBundle: Required action config "'.$key.'" not found.');
             }
             $this->$key = $options[$key];
         }

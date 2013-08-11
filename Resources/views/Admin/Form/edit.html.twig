@@ -18,7 +18,8 @@
         </div>
         <div class="well">
             <a href="{{ path(routes.index) }}" class="btn">{{ 'Back'|trans }}</a>
-            <button class="submit btn btn-primary">{{ 'Save'|trans }}</button>
+            <button name="save" class="submit btn btn-primary">{{ 'Save'|trans }}</button>
+            <button name="save_and_return" class="submit btn btn-primary">{{ 'Save and return'|trans }}</button>
         </div>
     </form>
 {% endblock %}

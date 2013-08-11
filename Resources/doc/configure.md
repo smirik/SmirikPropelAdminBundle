@@ -66,9 +66,9 @@ Checkout default templates in `@SmirikPropelAdminBundle/Resources/views/Admin/Co
 Generally action's configuration is pretty the same as written above. There are 5 built-in actions: `create, edit, delete, publish, chain`.
 
 ``` yaml
-create:
+new:
     route:   admin_tests_new
-    extends: create
+    extends: new
 edit:
     route:   admin_tests_edit
     extends: edit
@@ -144,6 +144,7 @@ smirik_propel_admin:
 You can override any template listed above. The default content is in `@SmirikPropelAdminBundle/Resources/views/Admin`. Use `templates` attribute `admin.template.resolver` service. 
 
 ### See also
+
 - [Index](index.md)
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)

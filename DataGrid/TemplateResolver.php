@@ -48,7 +48,7 @@ class TemplateResolver
      */
     public function resolve($config)
     {
-        $templates = array();
+        $templates = $this->templates;
         if (isset($config['templates'])) {
             foreach ($templates as $key => $array) {
                 if (isset($config['templates'][$key])) {
@@ -56,6 +56,29 @@ class TemplateResolver
                 }
             }
             $this->templates = $templates;
+        }
+    }
+
+    /**
+     * Find template by name
+     * @param  string $name
+     * @return string
+     */
+    public function find($name)
+    {
+        /**
+         * @todo refactoring
+         */
+        $tmp = explode('.', $name);
+        $num = count($tmp);
+        if ($num == 1) {
+            return $this->templates[$name];
+        } elseif ($num == 2) {
+            if (!isset($this->templates[$tmp[0]][$tmp[1]])) {
+                throw new \Exception('Template not found');
+            }
+
+            return $this->templates[$tmp[0]][$tmp[1]];
         }
     }
 

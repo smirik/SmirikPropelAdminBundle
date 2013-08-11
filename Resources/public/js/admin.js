@@ -1,5 +1,4 @@
 $(document).on('ready', function (e) {
-
     $(document).on("click", ".sortable", function (e) {
         e.preventDefault();
         linkToContent(this);
