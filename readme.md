@@ -15,6 +15,7 @@ If you are using `smirik/propel-admin-bundle` since version `1.0`, please use `1
 
 ### Changelog
 
+- [2013-08-08]: New publish/unpublish standard action. Major refactoring. Update documentation. 
 - [2013-08-07]: Branch to 1.0.x for support. 
 - [2013-05-30]: Update documentation for file-based fields & related stuff.
 - [2013-05-30]: Add support for file-upload fields.
@@ -32,12 +33,22 @@ All instructions are in [documentation](https://github.com/smirik/SmirikPropelAd
 
 To see the functionality in action you can clone sandbox: [SmirikPropelAdminDemoBundle](https://github.com/smirik/SmirikPropelAdminDemo). It is already configured project with 2 models (Category and Page) & generated PropelAdmin classes & configs.
 
+### Contribution & Tests
+
+To run test suite install dependencies:
+``` bash
+php composer.phar install
+```
+
+and run `phpspec` test suite:
+
+``` bash
+bin/phpspec run
+```
+
+Any contribution & pull requests are welcome. `git-flow` is used for this project, that's why use `develop` branch for new features. `master` branch is used only for hotfixes & stable releases.
 
 ### License
 
 MIT. Complete License is available in [Resources/meta/LICENSE](Resources/meta/LICENSE)
-
-### Issues & feature request
-
-Any contribution and/or feature request are welcome. 
 

@@ -2,15 +2,15 @@
 
 namespace Smirik\PropelAdminBundle\Action;
 
-class AjaxFlagAction extends AjaxObjectAction
+class ChainAction extends ObjectAction
 {
     
-    protected $template = 'SmirikPropelAdminBundle:Admin/Action:ajax_flag.html.twig';
+    protected $template = 'SmirikPropelAdminBundle:Admin/Action:chain.html.twig';
         
     /**
      * 
      */
-    protected $required_keys = array('name', 'label', 'route', 'options', 'getter', 'data', 'setter');
+    protected $required_keys = array('name', 'label', 'route', 'options', 'getter', 'setter', 'data');
     
     /**
      * Model column representing the flag field. Used in enable action in AdminController.
@@ -23,7 +23,7 @@ class AjaxFlagAction extends AjaxObjectAction
      */
     public function getAlias()
     {
-        return 'ajax_flag';
+        return 'chain';
     }
     
     /**
@@ -55,23 +55,35 @@ class AjaxFlagAction extends AjaxObjectAction
         throw new \Exception('Data for key = '.$obj->$getter().' is not specified');
     }
     
-    /**
-     * 
-     */
-    public function getValue($obj)
+    public function getNextValue($obj)
     {
         $position = $this->getPositionByKey($obj);
         if (isset($this->data[$position+1]))
         {
             return $this->data[$position+1]['key'];
         }
-        return 0;
+        return $this->data[0]['key'];
     }
     
     public function getView($obj)
     {
         $value = $this->getPositionByKey($obj);
         return $this->data[$value]['text'];
+    }
+    
+    public function getData()
+    {
+        return $this->data;
+    }
+    
+    public function getJson()
+    {
+        return json_encode($this->data);
+    }
+    
+    public function getGetter()
+    {
+        return $this->getter;
     }
     
 }

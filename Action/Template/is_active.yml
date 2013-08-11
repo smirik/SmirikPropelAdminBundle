@@ -1,9 +1,10 @@
 label:   Enabled
 name:    is_active
-builder: ajax_flag
+builder: chain
 options:
     route_with_id: true
     confirmation: false
+    filter: SmirikPropelAdminBundle:Admin/Action/Filter:chain.html.twig
 getter: getIsActive
 setter: setIsActive 
 data:

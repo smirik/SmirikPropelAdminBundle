@@ -47,13 +47,30 @@ abstract class Column implements ColumnInterface
         'list'   => 'SmirikPropelAdminBundle:Admin/Column:%s.html.twig',
     );
     protected $templates;
+    
+    protected $keys             = array('name', 'label', 'type', 'options', 'templates');
+    protected $required_keys    = array('name', 'label', 'type');
+    protected $required_options = array();
 
     public function setup($options)
     {
-        $keys = array('name', 'label', 'type', 'options', 'templates');
-
+        /**
+         * Validate required keys & options
+         */
+        foreach ($this->required_keys as $required_key) {
+            if (!array_key_exists($required_key, $options)) {
+                throw new ColumnRequiredConfigException('Column "'.$required_key.'" not specified in config.');
+            }
+        }
+        
+        foreach ($this->required_options as $required_option) {
+            if (!isset($options['options'][$required_option])) {
+                throw new ColumnRequiredConfigException('Column "'.$required_key.'" not specified in config.');
+            }
+        }
+        
         foreach ($options as $key => $option) {
-            if (in_array($key, $keys)) {
+            if (in_array($key, $this->keys)) {
                 $this->$key = $option;
             }
         }
@@ -101,7 +118,7 @@ abstract class Column implements ColumnInterface
 
     public function getGetter()
     {
-        return $this->replaceUnderscore($this->name);
+        return \Symfony\Component\DependencyInjection\Container::camelize($this->name);
     }
     
     public function getValue($item)
@@ -109,30 +126,6 @@ abstract class Column implements ColumnInterface
         $getter = 'get'.$this->getGetter();
         return $item->{$getter}();
     }
-
-    /**
-     * Replaces underscores in the method name
-     *
-     * @method replaceUnderscore
-     * @param  string $method
-     * @return string
-     */
-    public function replaceUnderscore($method = false)
-    {
-        if (!$method) {
-            return false;
-        }
-        $arr = explode('_', $method);
-        $new = '';
-        if (count($arr)) {
-            foreach ($arr as $key => $value) {
-                $new .= ucfirst($value);
-            }
-        }
-
-        return $new;
-    }
-    
 
     /**
      * @return array
@@ -161,5 +154,29 @@ abstract class Column implements ColumnInterface
         return $this->name;
     }
     
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+    
+	public function setOptions($options)
+	{
+		$this->options = $options;
+	}
+
+	public function getOptions()
+	{
+		return $this->options;
+	}
+ 
+	public function setLabel($label)
+	{
+		$this->label = $label;
+	}
+
+	public function getLabel()
+	{
+		return $this->label;
+	}
 
 }

@@ -75,10 +75,13 @@ comments:
 
 > You have to check that `Comment` class has mehods `getComments`.
 
-*See also*:
+### See also
 
+- [Index](index.md)
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
 - [How to handle file uploads](upload.md)
+- [AJAX chain builder](chain.md)
+- [Publish & unpublish action](publish.md)

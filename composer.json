@@ -13,18 +13,23 @@
         }
     ],
     "require": {
-        "symfony/framework-bundle": "2.*",
+        "symfony/symfony": ">=2.3,<2.4-dev",
         "propel/propel-bundle": "1.*",
         "willdurand/propel-typehintable-behavior": "*",
-        "smirik/bootstrap-bundle": "*"
+        "phpspec/phpspec": "2.0.*@dev"
     },
     "suggest": {
         "friendsofsymfony/user-bundle": "*",
         "avalanche123/imagine-bundle": "*",
-        "imagine/Imagine": "*"
+        "imagine/Imagine": "*",
+        "smirik/bootstrap-bundle": "*"
     },
     "autoload": {
         "psr-0": { "Smirik\\PropelAdminBundle": "" }
     },
-    "target-dir": "Smirik/PropelAdminBundle"
+    "target-dir": "Smirik/PropelAdminBundle",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "stable"
 }

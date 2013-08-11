@@ -28,5 +28,6 @@ interface ColumnInterface
 
     function getName();
     function getAlias();
+    function setup($options);
 
 }

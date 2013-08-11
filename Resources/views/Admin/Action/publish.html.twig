@@ -1,0 +1,5 @@
+<td class="center propel-admin-action propel-admin-publish-action">
+    <a href="#" data-url="{{ path(action.route, { 'id': item.id }) }}" data-target="#object{{ item.id }}" data-ajax="true" class="ajaxable btn input-block-level" href="{{ path(action.route, { 'id': item.id }) }}">
+        {{ action.view(item)|trans|raw }}
+    </a>
+</td>

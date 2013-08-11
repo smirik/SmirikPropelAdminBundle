@@ -1,19 +1,49 @@
 parameters:
     admin.abstract.controller.class: Smirik\PropelAdminBundle\Controller\AdminAbstractController
-    admin.action.manager.class: Smirik\PropelAdminBundle\Manager\ActionManager
-    admin.column.manager.class: Smirik\PropelAdminBundle\Manager\ColumnManager
+    admin.action.manager.class:      Smirik\PropelAdminBundle\Manager\ActionManager
+    admin.column.manager.class:      Smirik\PropelAdminBundle\Manager\ColumnManager
+    admin.config.loader.class:       Smirik\PropelAdminBundle\DataGrid\ConfigLoader
+    admin.template.resolver.class:   Smirik\PropelAdminBundle\DataGrid\TemplateResolver
+    admin.data.grid.class:           Smirik\PropelAdminBundle\DataGrid\DataGrid
+    admin.request.process.manager:   Smirik\PropelAdminBundle\Manager\RequestProcessManager
 
 services:
+    admin.template.resolver:
+        class: %admin.template.resolver.class%
+        arguments:
+            - "@service_container"
+
+    admin.config.loader:
+        class: %admin.config.loader.class%
+        calls:
+            - [ setManagers,  [ "@admin.column.manager", "@admin.action.manager" ] ]
+    
+    admin.data.grid:
+        class: %admin.data.grid.class%
+        calls:
+            - [ setConfigLoader, [ "@admin.config.loader" ] ]
+            - [ setTemplateResolver, [ "@admin.template.resolver" ] ]
+        arguments:
+            - "@service_container"
+
+    admin.request.process.manager:
+        class: %admin.request.process.manager%
+            
     admin.abstract.controller:
         class: %admin.abstract.controller.class%
         arguments:
             - "@service_container"
 
+    admin.column.manager:
+        class: %admin.column.manager.class%
+        calls:
+            - [ setContainer, [ "@service_container" ]]
+
     admin.action.manager:
         class: %admin.action.manager.class%
         calls:
             - [ setContainer, [ "@service_container" ]]
-
+    
     admin.simple.action.builder:
         class: Smirik\PropelAdminBundle\Builder\Action\SimpleActionBuilder
         tags:
@@ -24,25 +54,20 @@ services:
         tags:
             - { name: smirik_propel_admin.action.builder, alias: object }
 
-    admin.ajax_object.action.builder:
-        class: Smirik\PropelAdminBundle\Builder\Action\AjaxObjectActionBuilder
+    admin.publish.action.builder:
+        class: Smirik\PropelAdminBundle\Builder\Action\PublishActionBuilder
         tags:
-            - { name: smirik_propel_admin.action.builder, alias: ajax_object }
+            - { name: smirik_propel_admin.action.builder, alias: publish }
 
-    admin.ajax_flag.action.builder:
-        class: Smirik\PropelAdminBundle\Builder\Action\AjaxFlagActionBuilder
+    admin.chain.action.builder:
+        class: Smirik\PropelAdminBundle\Builder\Action\ChainActionBuilder
         tags:
-            - { name: smirik_propel_admin.action.builder, alias: ajax_flag }
+            - { name: smirik_propel_admin.action.builder, alias: chain }
 
     admin.single.action.builder:
         class: Smirik\PropelAdminBundle\Builder\Action\SingleActionBuilder
         tags:
             - { name: smirik_propel_admin.action.builder, alias: single }
-
-    admin.column.manager:
-        class: %admin.column.manager.class%
-        calls:
-            - [ setContainer, [ "@service_container" ]]
 
     admin.simple.column.builder:
         class: Smirik\PropelAdminBundle\Builder\Column\SimpleColumnBuilder
@@ -54,12 +79,36 @@ services:
         tags:
             - { name: smirik_propel_admin.column.builder, alias: file }
     
-    admin.generator.manager:
-        class: Smirik\PropelAdminBundle\Manager\GeneratorManager
-        calls:
-            - [ setContainer, [ "@service_container" ]]
-    
     admin.upload_file.manager:
         class: Smirik\PropelAdminBundle\Manager\UploadFileManager
         calls:
           - [ setContainer, [ "@service_container" ] ]
+
+    admin.generator.manager:
+        class: Smirik\PropelAdminBundle\Manager\GeneratorManager
+        calls:
+            - [ setContainer, [ "@service_container" ]]
+
+    admin.console.controller.dialog:
+        class: Smirik\PropelAdminBundle\Command\Dialog\ControllerDialog
+        calls:
+            - [ setConfigurator, [ "@admin.console.controller.configurator" ] ]
+
+    admin.console.controller.configurator:
+        class: Smirik\PropelAdminBundle\Command\Configurator\ControllerConfigurator
+
+    admin.console.column.dialog:
+        class: Smirik\PropelAdminBundle\Command\Dialog\ColumnDialog
+        calls:
+            - [ setConfigurator, [ "@admin.console.column.configurator" ] ]
+
+    admin.console.column.configurator:
+        class: Smirik\PropelAdminBundle\Command\Configurator\ColumnConfigurator
+
+    admin.console.action.dialog:
+        class: Smirik\PropelAdminBundle\Command\Dialog\ActionDialog
+        calls:
+            - [ setConfigurator, [ "@admin.console.action.configurator" ] ]
+
+    admin.console.action.configurator:
+        class: Smirik\PropelAdminBundle\Command\Configurator\ActionConfigurator

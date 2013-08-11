@@ -1,7 +1,7 @@
 Creating builder
 ================
 
-SmirikPropelAdminBundle allows to create new actions & columns easily via Dependency Injection. First of all take a look for standard actions and builders. Let's create new custom action.
+SmirikPropelAdminBundle allows to create new actions & columns easily via Dependency Injection. New builders can have different options, different look & different mechanics. First of all take a look for standard actions and builders. Let's create new custom action.
 
 Generally there are several steps:
 
@@ -94,8 +94,11 @@ That's it! Full custom declaration of new action is available in `AjaxObjectActi
 
 ### See also
 
+- [Index](index.md)
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
 - [How to handle file uploads](upload.md)
+- [AJAX chain builder](chain.md)
+- [Publish & unpublish action](publish.md)
