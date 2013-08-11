@@ -1,0 +1,5 @@
+<select name="filter[{{ action.name }}]" class="input-block-level filter_field filter-{{ action.name }}">
+    <option value=""></option>
+    <option value="1" {% if filter_raw[action.name] is defined and filter_raw[action.name] is sameas("1") %}selected{% endif %}>{{ 'Published'|trans }}</option>
+    <option value="0" {% if filter_raw[action.name] is defined and filter_raw[action.name] is sameas("0") %}selected{% endif %}>{{ 'Unpublished'|trans }}</option>
+</select>

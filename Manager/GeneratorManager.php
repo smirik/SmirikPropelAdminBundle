@@ -66,12 +66,14 @@ class GeneratorManager extends ContainerAware
 
     /**
      * Get list of columns of object
-     * @var string $model
-     * @var string $model_name
+     * @param Smirik\PropelAdminBundle\Command\Configurator\ControllerConfigurator $configurator
      * @return array
      */
-    public function getPropelColumns($model, $model_name)
+    public function getPropelColumns($configurator)
     {
+        $model      = $configurator->getModel();
+        $model_name = $configurator->getModelName();
+        
         $tmp = explode('\\', $model);
         unset($tmp[count($tmp) - 1]);
         $table_map_class = implode('\\', $tmp).'\\map\\'.$model_name.'TableMap';
@@ -93,18 +95,18 @@ class GeneratorManager extends ContainerAware
      * @var string $model_name
      * @return void
      */
-    public function createYamlConfig($columns, $actions, $bundle, $model_name)
+    public function createYamlConfig($controller_configurator, $column_configurator, $action_configurator)
     {
         $dumper = new Dumper();
-        $yaml = $dumper->dump(array('columns' => $columns, 'actions' => $actions), 10);
-        $base_path = $this->bundle($bundle);
+        $yaml = $dumper->dump(array('columns' => $column_configurator->toArray(), 'actions' => $action_configurator->toArray($controller_configurator->getUrlPrefix())), 10);
+        $base_path = $this->bundle($controller_configurator->getBundle());
         $yaml_path = $base_path.'/Resources/config/PropelAdmin/';
 
         if (!is_dir($yaml_path)) {
             mkdir($yaml_path, '0755', true);
         }
 
-        $path = $yaml_path.'Admin'.$model_name.'Controller.yml';
+        $path = $yaml_path.'Admin'.$controller_configurator->getModelName().'Controller.yml';
         file_put_contents($path, $yaml);
     }
 
@@ -113,28 +115,17 @@ class GeneratorManager extends ContainerAware
      * @var array $data
      * @return bool
      */
-    public function createController($data)
+    public function createController($controller_configurator)
     {
         $controller_dist = $this->container->get('kernel')->locateResource('@SmirikPropelAdminBundle/Skeleton/BaseAdminController.php.dist');
         $content         = file_get_contents($controller_dist);
-
-        $content = str_replace('**Controller**', $data['controller'], $content);
-        $content = str_replace('**ModelName**', $data['model_name'], $content);
-        $content = str_replace('**layout**', $data['layout'], $content);
-        $content = str_replace('**model_prefix**', $data['model_prefix'], $content);
-        $content = str_replace('**Query**', '\\'.$data['query'], $content);
-        $content = str_replace('**Form**', $data['form'], $content);
-        $content = str_replace('**Model**', '\\'.$data['model'], $content);
-        $content = str_replace('**bundle**', $data['bundle'], $content);
-
-        /**
-         * Write generated content into controller file.
-         */
-        $base_path       = $this->container->get('kernel')->locateResource('@'.$data['bundle']);
-        $controller_file = $base_path.'/Controller/Base/Admin'.$data['model_name'].'Controller.php';
+        $content         = $controller_configurator->placeholder($content);
+        
+        $base_path       = $this->container->get('kernel')->locateResource('@'.$controller_configurator->getBundle());
+        $controller_file = $base_path.'/Controller/Base/Admin'.$controller_configurator->getModelName().'Controller.php';
         file_put_contents($controller_file, $content);
 
-        if ($this->createMainController($data['controller'], $data['model_name'], $data['bundle'])) {
+        if ($this->createMainController($controller_configurator)) {
             return true;
         }
 
@@ -148,19 +139,14 @@ class GeneratorManager extends ContainerAware
      * @param  string $bundle
      * @return bool
      */
-    public function createMainController($controller, $model_name, $bundle)
+    public function createMainController($controller_configurator)
     {
         $controller_dist = $this->container->get('kernel')->locateResource('@SmirikPropelAdminBundle/Skeleton/AdminController.php.dist');
         $content         = file_get_contents($controller_dist);
+        $content         = $controller_configurator->placeholder($content);
 
-        $content = str_replace('**Controller**', $controller, $content);
-        $content = str_replace('**ModelName**', $model_name, $content);
-
-        /**
-         * Write generated content into controller file.
-         */
-        $base_path       = $this->bundle($bundle);
-        $controller_file = $base_path.'/Controller/Admin'.$model_name.'Controller.php';
+        $base_path       = $this->bundle($controller_configurator->getBundle());
+        $controller_file = $base_path.'/Controller/Admin'.$controller_configurator->getModelName().'Controller.php';
 
         if (is_file($controller_file)) {
             return false;
@@ -177,26 +163,18 @@ class GeneratorManager extends ContainerAware
      * @var string $form_text
      * @return void
      */
-    public function createForm($data, $form_text)
+    public function createForm($controller_configurator, $column_configurator, $action_configurator)
     {
         $form_dist = $this->container->get('kernel')->locateResource('@SmirikPropelAdminBundle/Skeleton/BaseFormType.php.dist');
         $content   = file_get_contents($form_dist);
+        $content   = $column_configurator->formPlaceholder($content, $controller_configurator);
 
-        $tmp           = explode("\\", $data['form']);
-        $form_filename = $tmp[count($tmp) - 1];
-
-        $content = str_replace('**Controller**', $data['controller'], $content);
-        $content = str_replace('**Model**', $data['model'], $content);
-        $content = str_replace('**ModelName**', $data['model_name'], $content);
-        $content = str_replace('**FormName**', $form_filename, $content);
-        $content = str_replace('**FIELDS**', $form_text, $content);
-
-        $base_path = $this->container->get('kernel')->locateResource('@'.$data['bundle']);
+        $base_path = $this->container->get('kernel')->locateResource('@'.$controller_configurator->getBundle());
         $form_path = $base_path.'/Form/Type/Base/';
-        $form_file = $form_path.$form_filename.'.php';
+        $form_file = $form_path.$controller_configurator->getFormFilename().'.php';
         file_put_contents($form_file, $content);
         
-        if ($this->createMainForm($data['controller'], $data['form'], $data['bundle']))
+        if ($this->createMainForm($controller_configurator, $column_configurator))
         {
             return true;
         }
@@ -210,20 +188,15 @@ class GeneratorManager extends ContainerAware
      * @var string $bundle
      * @return bool
      */
-    public function createMainForm($controller, $form, $bundle)
+    public function createMainForm($controller_configurator, $column_configurator)
     {
         $form_dist = $this->container->get('kernel')->locateResource('@SmirikPropelAdminBundle/Skeleton/FormType.php.dist');
         $content   = file_get_contents($form_dist);
+        $content   = $column_configurator->formPlaceholder($content, $controller_configurator);
 
-        $tmp           = explode("\\", $form);
-        $form_filename = $tmp[count($tmp) - 1];
-
-        $content = str_replace('**Controller**', $controller, $content);
-        $content = str_replace('**FormName**', $form_filename, $content);
-
-        $base_path = $this->bundle($bundle);
+        $base_path = $this->bundle($controller_configurator->getBundle());
         $form_path = $base_path.'/Form/Type/';
-        $form_file = $form_path.$form_filename.'.php';
+        $form_file = $form_path.$controller_configurator->getFormFilename().'.php';
         
         if (is_file($form_file)) {
             return false;
@@ -231,6 +204,22 @@ class GeneratorManager extends ContainerAware
         
         file_put_contents($form_file, $content);
         return true;
+    }
+    
+    public function createRouting($controller_configurator)
+    {
+		$routing_dist = $this->container->get('kernel')->locateResource('@SmirikPropelAdminBundle/Skeleton/routing.yml.dist');
+		$content = file_get_contents($routing_dist);
+		
+		$path = $this->container->get('kernel')->locateResource('@'.$controller_configurator->getBundle());
+		$path = $path.'Resources/config/routing.yml';
+		$fd = fopen($path, 'a+');
+		
+		$content = str_replace('**url_prefix**', $controller_configurator->getUrlPrefix(), $content);
+		$content = str_replace('**Controller**', str_replace("\\", "",$controller_configurator->getController().':'.'Admin'.$controller_configurator->getModelName()), $content);
+		
+		fputs($fd, "\n".$content);
+		fclose($fd);
     }
 
 }

@@ -1,0 +1,12 @@
+language: php
+
+php: [5.3, 5.4, 5.5]
+
+env:
+  - SYMFONY_VERSION='~2.3-dev'
+
+before_script:
+  - composer install --prefer-source --dev
+  - 'curl -H "Accept: text/plain" https://security.sensiolabs.org/check_lock -F lock=@composer.lock -s | grep "No known"'
+
+script: ./bin/phpspec run -fpretty

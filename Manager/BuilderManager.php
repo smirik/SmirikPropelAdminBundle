@@ -26,7 +26,7 @@ abstract class BuilderManager extends ContainerAware
      * @var array $options
      * @return array
      */
-    protected function useDefaults($options)
+    public function useDefaults($options)
     {
         $finder = $this->getStandard();
         if (isset($options['extends']))
@@ -57,12 +57,9 @@ abstract class BuilderManager extends ContainerAware
     {
         $options = $this->useDefaults($options);
         $builder = $options['builder'];
-        try {
-            $action = $this->builders[$builder]->create($options);
-            $action->setup($options);
-        } catch (\Exception $e) {
-            return false;
-        }
+
+        $action = $this->builders[$builder]->create($options);
+        $action->setup($options);
 
         return $action;
     }

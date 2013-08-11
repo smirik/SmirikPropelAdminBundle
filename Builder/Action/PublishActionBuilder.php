@@ -2,14 +2,14 @@
 
 namespace Smirik\PropelAdminBundle\Builder\Action;
 
-use Smirik\PropelAdminBundle\Action\AjaxFlagAction;
+use Smirik\PropelAdminBundle\Action\PublishAction;
 
-class AjaxFlagActionBuilder implements ActionBuilderInterface
+class PublishActionBuilder implements ActionBuilderInterface
 {
 
     public function create($options)
     {
-        $action = new AjaxFlagAction();
+        $action = new PublishAction();
         $action->setup($options);
         return $action;
     }

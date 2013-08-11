@@ -12,7 +12,7 @@ class Admin**ModelName**Controller extends AbstractController
 {
 	
 	public $layout = '**layout**';
-	public $name   = '**model_prefix**';
+	public $name   = '**url_prefix**';
 	public $bundle = '**bundle**';
 
 	public function getQuery()

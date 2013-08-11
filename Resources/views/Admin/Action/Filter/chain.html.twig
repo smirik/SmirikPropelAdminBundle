@@ -1,0 +1,6 @@
+<select name="filter[{{ action.name }}]" class="input-block-level filter_field filter-{{ action.name }}">
+    <option value=""></option>
+    {% for elem in action.data %}
+        <option value="{{ elem.key }}" {% if filter_raw[action.name] is defined and filter_raw[action.name] is sameas(elem.key) %}selected{% endif %}>{{ elem.text|trans }}</option>
+    {% endfor %}
+</select>

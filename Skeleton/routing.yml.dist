@@ -1,29 +1,33 @@
-admin_**model_prefix**_index:
-    pattern: /**model_prefix**
+admin_**url_prefix**_index:
+    pattern: /**url_prefix**
     defaults: { _controller: **Controller**:index, page: 1 }
 
-admin_**model_prefix**_list:
-    pattern: /**model_prefix**/{page}
+admin_**url_prefix**_list:
+    pattern: /**url_prefix**/{page}
     defaults: { _controller: **Controller**:index, page: 1 }
     requirements:
         page:   \d+
 
-admin_**model_prefix**_edit:
-    pattern: /**model_prefix**/{id}/edit
+admin_**url_prefix**_edit:
+    pattern: /**url_prefix**/{id}/edit
     defaults: { _controller: **Controller**:edit }
     requirements:
         id:   \d+
 
-admin_**model_prefix**_delete:
-    pattern: /**model_prefix**/{id}/delete
+admin_**url_prefix**_delete:
+    pattern: /**url_prefix**/{id}/delete
     defaults: { _controller: **Controller**:delete }
     requirements:
         id:   \d+
 
-admin_**model_prefix**_new:
-    pattern: /**model_prefix**/new
+admin_**url_prefix**_new:
+    pattern: /**url_prefix**/new
     defaults: { _controller: **Controller**:new }
 
-admin_**model_prefix**_enable:
-    pattern: /**model_prefix**/enable
-    defaults: { _controller: **Controller**:enable }
+admin_**url_prefix**_chain:
+    pattern: /**url_prefix**/chain
+    defaults: { _controller: **Controller**:chain }
+
+admin_**url_prefix**_publish:
+    pattern: /**url_prefix**/publish
+    defaults: { _controller: **Controller**:publish }

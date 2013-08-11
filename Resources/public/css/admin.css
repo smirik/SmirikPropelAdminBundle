@@ -9,3 +9,5 @@ table.propel-admin td.object-action { width: 50px; }
 
 table.propel-admin td.filter-checkbox, table.propel-admin td.column-id { padding: 5px; width: 20px; text-align: center }
 table.propel-admin th.column-header-id { width: 50px; }
+table.propel-admin th.propel-admin-native-actions-header { width: 92px; }
+table.propel-admin td.propel-admin-native-action { width: 92px; }

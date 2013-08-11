@@ -2,210 +2,95 @@
 
 namespace Smirik\PropelAdminBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use Smirik\PropelAdminBundle\Column\DataGrid;
-
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
-abstract class AdminAbstractController extends Controller
+abstract class AdminAbstractController extends AdminAbstractConfigurationController
 {
-    /**
-     * @var \Smirik\PropelAdminBundle\Column\DataGrid $grid
-     */
-    public $grid;
-
-    /**
-     * @var integer $page
-     */
-    protected $page = 1;
-    /**
-     * @var integer $limit
-     */
-    protected $limit = 15;
-
-    /**
-     * @var string
-     */
-    public $layout = '::base.html.twig';
-    
-    /**
-     * @var mixed
-     */
-    public $object;
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * @var array
-     */
-    protected $routes = array();
-
-    public function __construct()
-    {
-        $this->generateRoutes();
-        $this->grid = new Datagrid();
-    }
-
-    public function loadConfig()
-    {
-        $tmp    = explode('\\', get_class($this));
-        $class  = $tmp[count($tmp) - 1];
-        $kernel = $this->get('kernel');
-        $path   = $kernel->locateResource('@'.$this->bundle.'/Resources/config/PropelAdmin/'.$class.'.yml');
-
-        $yaml = new Parser();
-        try {
-            $value = $yaml->parse(file_get_contents($path));
-        } catch (ParseException $e) {
-            printf("Unable to parse the YAML string: %s", $e->getMessage());
-        }
-
-        return $value;
-    }
-
-    public function setup()
-    {
-        $yaml           = $this->loadConfig();
-        $action_manager = $this->get('admin.action.manager');
-        $column_manager = $this->get('admin.column.manager');
-        $this->grid->load($yaml, $column_manager, $action_manager);
-        if (array_key_exists('AvalancheImagineBundle', $this->container->getParameter('kernel.bundles'))) {
-            $this->grid->setupAvalanche();
-        }
-    }
-
-    public function getPaginate()
-    {
-        $this->page  = $this->getRequest()->query->get('page', false);
-        $this->limit = $this->getRequest()->query->get('limit', false);
-
-    }
-
-    public function generateRoutes()
-    {
-        $this->routes = array(
-            'index'  => 'admin_'.$this->name.'_index',
-            'list'   => 'admin_'.$this->name.'_list',
-            'new'    => 'admin_'.$this->name.'_new',
-            'create' => 'admin_'.$this->name.'_create',
-            'edit'   => 'admin_'.$this->name.'_edit',
-            'update' => 'admin_'.$this->name.'_edit',
-            'delete' => 'admin_'.$this->name.'_delete',
-            'enable' => 'admin_'.$this->name.'_enable',
-        );
-    }
 
     public function indexAction($page = false)
     {
         $this->setup();
         $this->getPaginate();
-        if (!$this->limit) {
-            $this->limit = $this->grid->getLimit();
-        }
 
-        $this->page = (int)$page;
+        $this->page = (int) $page;
         $this->generateRoutes();
 
         $sort      = $this->getRequest()->query->get('sort', 'id');
         $sort_type = $this->getRequest()->query->get('sort_type', 'desc');
         $filter    = $this->getRequest()->query->get('filter', false);
         $options   = $this->getRequest()->query->get('options', false);
+
         if ($options) {
             $options = json_decode($options);
         }
 
-        $method = 'orderById';
-        if ($sort) {
-            $method = (string)'orderBy'.$this->underscore2Camelcase($sort);
-        }
-
-        $collection_query = $this->getQuery()
-            ->_if($method)
-            ->$method($sort_type)
-            ->_endIf();
-
-        if ($filter && is_array($filter)) {
-            foreach ($filter as $key => $value) {
-                if ($value === '') {
-                    continue;
-                }
-                $filter_method = (string)'filterBy'.$this->underscore2Camelcase($key);
-                $int_value     = (int)$value;
-                if ((string)$int_value != $value) {
-                    $value = '%'.$value.'%';
-                }
-                $collection_query
-                    ->$filter_method($value);
-            }
-        } else {
-            $filter = false;
-        }
+        $collection_query = $this->get('admin.request.process.manager')->sort($this->getQuery(), $sort, $sort_type);
+        $collection_query = $this->get('admin.request.process.manager')->filter($collection_query, $filter);
 
         $collection = $collection_query
             ->paginate($this->page, $this->limit);
 
-        $ajax = false;
-
-        $array = array(
+        $response = array(
             'collection' => $collection,
             'page'       => $this->page,
             'limit'      => $this->limit,
-            'columns'    => $this->grid->getColumns(),
+            'columns'    => $this->get('admin.data.grid')->getColumns(),
             'layout'     => $this->layout,
-            'actions'    => $this->grid->getActions(),
+            'actions'    => $this->get('admin.data.grid')->getActions(),
             'routes'     => $this->routes,
-            'grid'       => $this->grid,
+            'grid'       => $this->get('admin.data.grid'),
             'name'       => $this->name,
-            'ajax'       => $ajax,
             'sort'       => $sort,
             'sort_type'  => $sort_type,
             'filter'     => json_encode($filter),
             'filter_raw' => $filter,
             'options'    => $options,
-            'nativeActions' => $this->grid->getNativeActions()
+            'nativeActions' => $this->get('admin.data.grid')->getNativeActions()
         );
 
         if ($this->getRequest()->isXmlHttpRequest()) {
-            return $this->render($this->grid->template('index_content'), $array);
+            return $this->render($this->get('admin.data.grid')->template('index_content'), $response);
         }
 
-        return $this->render($this->grid->template('index'), $array);
-    }
-
-    public function getObject()
-    {
-    }
-
-    abstract public function getQuery();
-
-    abstract public function getForm();
-
-    public function initialize()
-    {
-        $this->setup();
-        $this->generateRoutes();
+        return $this->render($this->get('admin.data.grid')->template('index'), $response);
     }
 
     public function editAction($id)
     {
         $this->initialize();
-        
         $this->object = $this->getQuery()->findPk($id);
         if (!$this->object) {
             throw $this->createNotFoundException('Not found');
         }
 
+        $response = $this->updateObject('edit');
+        if ($response instanceOf Response) {
+            return $response;
+        }
+
+        return $this->render($this->get('admin.data.grid')->template('form.edit'), $response);
+    }
+
+    public function newAction()
+    {
+        $this->initialize();
+        $this->object = $this->getObject();
+
+        $response = $this->updateObject('new');
+        if ($response instanceOf Response) {
+            return $response;
+        }
+
+        return $this->render($this->get('admin.data.grid')->template('form.new'), $response);
+    }
+
+    private function updateObject($mode)
+    {
         $request = $this->getRequest();
+        $form    = $this->createForm($this->getForm(), $this->object);
 
-        $form = $this->createForm($this->getForm(), $this->object);
-
-        $file_columns = $this->grid->getColumns()->getFileColumns();
+        $file_columns   = $this->get('admin.data.grid')->getColumns()->getFileColumns();
         $default_values = $this->get('admin.upload_file.manager')->getDefaultValues($file_columns, $this->object);
 
         if ('POST' == $request->getMethod()) {
@@ -213,20 +98,25 @@ abstract class AdminAbstractController extends Controller
             if ($form->isValid()) {
                 $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
                 $this->object->save();
-
-                return $this->redirect($this->generateUrl($this->routes['index']));
+                
+                $save_and_return = $this->getRequest()->request->get('save_and_return', false);
+                if ($save_and_return === false) {
+                    return $this->redirect($this->generateUrl($this->routes['index']));
+                } else {
+                    return $this->redirect($this->generateUrl($this->routes['edit'], array('id' => $this->object->getId())));
+                }
             }
         }
 
-        $render = array(
+        $response = array(
             'layout'  => $this->layout,
             'object'  => $this->object,
             'form'    => $form->createView(),
-            'columns' => $this->grid->getColumns(),
+            'columns' => $this->get('admin.data.grid')->getColumns(),
             'routes'  => $this->routes,
         );
 
-        return $this->render($this->grid->template('form.edit'), $render);
+        return $response;
     }
 
     public function deleteAction($id = 5)
@@ -244,83 +134,75 @@ abstract class AdminAbstractController extends Controller
         return $this->redirect($this->generateUrl($this->routes['index'], array('page' => $page)));
     }
 
-    public function newAction()
+    public function publishAction()
     {
         $this->initialize();
-        $this->object = $this->getObject();
 
-        $request = $this->getRequest();
-        $form    = $this->createForm($this->getForm(), $this->object);
-
-        $file_columns = $this->grid->getColumns()->getFileColumns();
-        $default_values = $this->get('admin.upload_file.manager')->getDefaultValues($file_columns, $this->object);
-
-        if ('POST' == $request->getMethod()) {
-            $form->bind($request);
-            if ($form->isValid()) {
-                $this->get('admin.upload_file.manager')->uploadFiles($form, $file_columns, $this->object, $default_values);
-                $this->object->save();
-
-                return $this->redirect($this->generateUrl($this->routes['index']));
-            }
-        }
-
-        $render = array(
-            'layout'  => $this->layout,
-            'object'  => $this->object,
-            'form'    => $form->createView(),
-            'columns' => $this->grid->getColumns(),
-            'routes'  => $this->routes,
-        );
-
-        return $this->render($this->grid->template('form.new'), $render);
-    }
-
-    public function enableAction()
-    {
-        $this->initialize();
-        
-        $id     = (int)$this->getRequest()->query->get('id', false);
-        $status = (int)$this->getRequest()->query->get('status', false);
-        $setter = $this->getRequest()->query->get('setter', false);
-        
-        if (!$id || ($status === false))
-        {
+        $id = (int) $this->getRequest()->query->get('id', false);
+        if (!$id) {
             return new JsonResponse(array('status' => -1));
         }
+        
         $obj = $this->getQuery()->findPk($id);
-        if (!$obj)
-        {
+        if (!$obj) {
             return new JsonResponse(array('status' => -2));
         }
+
+        if ($obj->isPublished()) {
+            $obj->unpublish();
+        } else {
+            $obj->publish();
+        }
         
-        $obj->$setter($status);
         $obj->save();
-        
-        if ($this->getRequest()->isXmlHttpRequest())
-        {
+
+        if ($this->getRequest()->isXmlHttpRequest()) {
             $this->setup();
-            return $this->render($this->grid->template('row'), array(
+
+            return $this->render($this->get('admin.data.grid')->template('row'), array(
                 'item' => $obj,
-                'grid' => $this->grid,
-                'columns' => $this->grid->getColumns(),
-                'actions' => $this->grid->getActions(),
+                'grid' => $this->get('admin.data.grid'),
+                'columns' => $this->get('admin.data.grid')->getColumns(),
+                'actions' => $this->get('admin.data.grid')->getActions(),
                 'options' => false,
             ));
         }
-        
+
         return $this->redirect($this->generateUrl($this->routes['index']));
     }
 
-    public function underscore2Camelcase($str)
+    public function chainAction()
     {
-        $words  = explode('_', strtolower($str));
-        $return = '';
-        foreach ($words as $word) {
-            $return .= ucfirst(trim($word));
+        $this->initialize();
+
+        $id     = (int) $this->getRequest()->query->get('id', false);
+        $status = (int) $this->getRequest()->query->get('status', false);
+        $setter = $this->getRequest()->query->get('setter', false);
+
+        if (!$id || ($status === false)) {
+            return new JsonResponse(array('status' => -1));
+        }
+        $obj = $this->getQuery()->findPk($id);
+        if (!$obj) {
+            return new JsonResponse(array('status' => -2));
         }
 
-        return $return;
+        $obj->$setter($status);
+        $obj->save();
+
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $this->setup();
+
+            return $this->render($this->get('admin.data.grid')->template('row'), array(
+                'item' => $obj,
+                'grid' => $this->get('admin.data.grid'),
+                'columns' => $this->get('admin.data.grid')->getColumns(),
+                'actions' => $this->get('admin.data.grid')->getActions(),
+                'options' => false,
+            ));
+        }
+
+        return $this->redirect($this->generateUrl($this->routes['index']));
     }
 
 }

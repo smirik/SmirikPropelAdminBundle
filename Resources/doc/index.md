@@ -1,11 +1,11 @@
 Getting started
 ===============
 
-SmirikPropelAdminBundle is a missing admin generator for Symfony2. It allows to create config-based flexible administrative tool for any propel data. It works "out of the box". You only need to install it & run the console command.
+SmirikPropelAdminBundle is a missing admin generator for Symfony2. It allows to create config-based flexible administrative tool for any propel data. It works "out of the box". You only need to install it & run the console command. `SmirikPropelAdminBundle` is also fully documentated & tested with [phpspec](https://github.com/phpspec/phpspec).
 
 ## Prerequisites
 
-* Symfony 2.1+
+* Symfony 2.3+
 * PHP 5.3+
 * Bootstrap is not required but highly recommended
 
@@ -13,6 +13,14 @@ SmirikPropelAdminBundle is a missing admin generator for Symfony2. It allows to 
 
 All text data used in the bundle are translatable. Use translation files to provide custom translations.
 
+### What's new?
+
+**August, 10, 2013**
+
+* [1.1.x] Add `publish` standard action (related to [publishable](https://github.com/willdurand/PublishableBehavior) behavior).
+* [1.1.x] Filtering option for `publish` and `chain` actions (no more 2 different columns with status & action).
+* [1.1.x] Autocomplete in console command `propel:admin:build`.
+* [1.1.x] Add save-and-return submit button for new and edit actions.
 
 ## Installation
 ### Step 1: Download SmirikPropelAdminBundle via composer
@@ -111,10 +119,27 @@ Other demo screenshots:
 * [Filtering the results](https://github.com/smirik/SmirikPropelAdminDemo/tree/master/src/Smirik/PropelAdminDemoBundle/Resources/doc/demo-02.png)
 * [Edit form](https://github.com/smirik/SmirikPropelAdminDemo/tree/master/src/Smirik/PropelAdminDemoBundle/Resources/doc/demo-03.png)
 
-### See also
+### Contribution & Tests
+
+To run test suite install dependencies:
+``` bash
+php composer.phar install
+```
+
+and run `phpspec` test suite:
+
+``` bash
+bin/phpspec run
+```
+
+Any contribution & pull requests are welcome. `git-flow` is used for this project, that's why use `develop` branch for new features. `master` branch is used only for hotfixes & stable releases.
+
+### Documentation
 
 - [More about console generator](generator.md)
 - [Advanced configuration](configure.md)
 - [Deal with relations](relations.md)
 - [How to create own action or column](builders.md)
 - [How to handle file uploads](upload.md)
+- [AJAX chain builder](chain.md)
+- [Publish & unpublish action](publish.md)

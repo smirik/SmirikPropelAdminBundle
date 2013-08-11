@@ -2,23 +2,21 @@
 
 {% block content %}
 
-  {% block admin_action_edit_title %}
-    <h2>{{ 'Create'|trans }}</h2>
-  {% endblock %}
-
-  <form class="form-horizontal" action="{{ path(routes.new) }}" method="post" {{ form_enctype(form) }}>
-    <div class="well">
-      {{ form_errors(form) }}
-      {% for column in columns %}
-        {% if column.editable %}
-          {{ form_row(attribute(form, column.name)) }}
-        {% endif %}
-      {% endfor %}
-      {{ form_row(form._token) }}
-    </div>
-    <div class="well">
-      <a href="{{ path(routes.index) }}" class="btn">{{ 'Back'|trans }}</a>
-      <button class="submit btn btn-primary">{{ 'Create'|trans }}</button>
-    </div>
-  </form>
+    <form class="form-horizontal" action="{{ path(routes.new) }}" method="post" {{ form_enctype(form) }}>
+        <legend>{{ 'Create'|trans }}</legend>
+        <div class="propel-admin-form propel-admin-create-form">
+            {{ form_errors(form) }}
+            {% for column in columns %}
+                {% if column.editable %}
+                    {{ form_row(attribute(form, column.name)) }}
+                {% endif %}
+            {% endfor %}
+            {{ form_row(form._token) }}
+        </div>
+        <div class="well">
+            <a href="{{ path(routes.index) }}" class="btn">{{ 'Back'|trans }}</a>
+            <button name="create" class="submit btn btn-primary">{{ 'Create'|trans }}</button>
+            <button name="create_and_return" class="submit btn btn-primary">{{ 'Create and return'|trans }}</button>
+        </div>
+    </form>
 {% endblock %}

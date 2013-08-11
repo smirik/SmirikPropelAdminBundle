@@ -6,6 +6,8 @@ use Symfony\Component\Finder\Finder;
 
 class FileColumn extends Column
 {
+    
+    protected $required_options = array('upload_path');
 
 	public function getAlias()
 	{
@@ -19,7 +21,11 @@ class FileColumn extends Column
         if ($file == '') {
             return false;
         }
-        return $this->guessExtension($file);
+        $ext = $this->guessExtension($file);
+        if ($ext) {
+            return $ext;
+        }
+        return 'file';
     }
     
     public function getUploadPath()
@@ -45,6 +51,8 @@ class FileColumn extends Column
         {
             return $ext;
         }
+        
+        return false;
     }
     
     public function randomizeName()
