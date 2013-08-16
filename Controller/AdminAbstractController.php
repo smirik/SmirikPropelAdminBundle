@@ -85,7 +85,7 @@ abstract class AdminAbstractController extends AdminAbstractConfigurationControl
         return $this->render($this->get('admin.data.grid')->template('form.new'), $response);
     }
 
-    private function updateObject($mode)
+    protected function updateObject($mode)
     {
         $request = $this->getRequest();
         $form    = $this->createForm($this->getForm(), $this->object);
