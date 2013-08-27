@@ -136,12 +136,19 @@ abstract class AdminAbstractController extends Controller
                     continue;
                 }
                 $filter_method = (string)'filterBy'.$this->underscore2Camelcase($key);
-                $int_value     = (int)$value;
-                if ((string)$int_value != $value) {
-                    $value = '%'.$value.'%';
+                
+                if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $value))
+                {
+                    // The $value is a date (without time part).
+                    $collection_query
+                        ->$filter_method($value . ' 00:00:00', \Criteria::GREATER_EQUAL)
+                        ->$filter_method($value . ' 23:59:59', \Criteria::LESS_EQUAL);
+                } else {
+                    if (!is_numeric($value)) {
+                        $value = "%" . trim($value) . '%';
+                    }
+                    $collection_query->$filter_method($value);
                 }
-                $collection_query
-                    ->$filter_method($value);
             }
         } else {
             $filter = false;
