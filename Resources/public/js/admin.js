@@ -1,34 +1,83 @@
-$(document).on('ready', function (e) {
-    $(document).on("click", ".sortable", function (e) {
-        e.preventDefault();
-        linkToContent(this);
-    });
-    $(document).on("click", ".pagination a", function (e) {
-        e.preventDefault();
-        linkToContent(this);
-    });
+(function($){
+    var $document = $(document),
+        $progress =  $('.progress');
+    ;
 
-    if (typeof default_route !=="undefined"){
-        loadContent(default_route);
+    function stashFilter(path)
+    {
+        var elem = document.createElement('a')
+            , query = []
+            , $form = $('form.filterable')
+            , temp
+            ;
+
+        if ("undefined" == typeof localStorage) {
+            return;
+        }
+
+        elem.href = path;
+        if (elem.search.length) {
+            query.push(elem.search.substr(1));
+        }
+
+        temp = $form.serialize();
+        if (temp.length) {
+            query.push(temp);
+        }
+
+        if (query.length) {
+            localStorage.setItem(window.location.pathname, query.join("&"));
+        }
     }
-    $(document).on("click", ".btn-danger", function (e) {
-        e.preventDefault();
-        if (confirm(default_confirm_message)) {
-            linkToContent(this);
-        }
-    });
 
-    $('.alert-place').ajaxError(function (event, request, settings) {
-        $('.progress').hide();
-        var alert;
-        if (request.status >= 500) {
-            alert = new alertMessage(default_error_title, default_error_message, 'error').appendTo(this);
-        } else {
-            alert = new alertMessage(default_error_title, default_error_message).appendTo(this);
+    function unstashFilter()
+    {
+        if ("undefined" == typeof localStorage) {
+            return;
         }
-        alert.alert();
-    });
-    var alertMessage = function (header, text, type) {
+
+        return localStorage.getItem(window.location.pathname);
+    }
+
+    function linkToContent(el)
+    {
+        var link = $(el).attr('href') ? $(el).attr('href') : $(el).data('href');
+        if (!el) return;
+        loadContent(link);
+    }
+
+    function loadContent(path, query)
+    {
+        var $form = $('form.filterable');
+
+        $progress.show();
+
+        if ("undefined" == typeof query) {
+            query = $form.serialize();
+
+            stashFilter(path);
+        }
+
+        $.get(path, query)
+            .done(function(html){
+                $('#content')
+                    .html(html)
+                    .trigger($.Event('propel-admin-content-load'))
+                ;
+
+                $('.ajax_action').tomodal();
+            })
+            .always(function(){
+                $progress.hide();
+            })
+            .fail(function(xhr, textStatus){
+                console.error(textStatus)
+            })
+        ;
+    }
+
+    function AlertMessage(header, text, type)
+    {
         var body = $('<div/>').addClass('alert');
         if (typeof type != 'undefined') {
             body.addClass('alert-' + type);
@@ -40,7 +89,18 @@ $(document).on('ready', function (e) {
         return body;
     }
 
-    $(document).on('click', 'a.chain', function (e) {
+    $(function(){
+        $document.on("click.propelAdmin", ".pagination a", function (e) {
+            e.preventDefault();
+            linkToContent(this);
+        });
+        $document.on("click.propelAdmin", ".btn-danger", function (e) {
+            e.preventDefault();
+            if (confirm(typeof default_confirm_message !== "undefined" ? default_confirm_message : "Are you sure?")) {
+                linkToContent(this);
+            }
+        });
+        $document.on('click.propelAdmin', 'a.chain', function (e) {
             e.preventDefault();
             /* @todo multiple choices */
             /* @todo refactoring */
@@ -53,68 +113,74 @@ $(document).on('ready', function (e) {
             }
 
             that.attr('disabled', true);
-            $.post(that.attr('href'), { 'status': status, 'id': data.id }, function (response) {
+            $.post(that.attr('href'), { 'status': status, 'id': data.id }, function () {
                 that.attr('disabled', false);
                 that.data('status', status);
-                $.each(data.text, function (e) {
+                $.each(data.text, function () {
                     if (this.key == status) {
                         that.html(this.text);
                     }
                 });
 
             }, 'json');
+
+            return true;
         });
-    
-    $(document).on('click', 'a.ajaxable', function (e) {
-        e.preventDefault();
-        var button = $(e.target);
-        if (!button.attr('data-url'))
-        {
-            var button = button.parent();
-        }
-        button.ajaxable('request');
-        button.attr('disabled', true);
-        button.on('done', function (e) {
-            button.attr('disabled', false);
+        $document.on('click.propelAdmin', 'a.ajaxable', function (e) {
+            e.preventDefault();
+            var button = $(e.target);
+            if (!button.attr('data-url'))
+            {
+                button = button.parent();
+            }
+            button.ajaxable('request');
+            button.attr('disabled', true);
+            button.on('done', function () {
+                button.attr('disabled', false);
+            });
         });
-    });
-    
-    $(document).on('click', 'input#select-all-checkbox', function(e){
-        var select_all_checkbox = $('input:checkbox#select-all-checkbox');
-        if (select_all_checkbox.prop('checked'))
-        {
-            $('input.admin_item_checkbox').prop('checked', "checked");
-        } else
-        {
-            $('input.admin_item_checkbox').prop('checked', false);
+        $document.on('click.propelAdmin', 'input#select-all-checkbox', function(){
+            var select_all_checkbox = $('input:checkbox#select-all-checkbox');
+            if (select_all_checkbox.prop('checked'))
+            {
+                $('input.admin_item_checkbox').prop('checked', "checked");
+            } else
+            {
+                $('input.admin_item_checkbox').prop('checked', false);
+            }
+        });
+        $document.on("click.propelAdmin", ".sortable", function (e) {
+            e.preventDefault();
+            linkToContent(this);
+        });
+        $document.on('submit.propelAdmin', 'form.filterable', function (e) {
+            e.preventDefault();
+            loadContent($(this).attr('action'));
+        });
+
+        $.ajaxSetup({
+            cache: false
+        });
+
+        $('.alert-place').ajaxError(function (event, request) {
+            $('.progress').hide();
+            var alert;
+            if (request.status >= 500) {
+                alert = new AlertMessage(default_error_title, default_error_message, 'error').appendTo(this);
+            } else {
+                alert = new AlertMessage(default_error_title, default_error_message).appendTo(this);
+            }
+            alert.alert();
+        });
+
+        if ("undefined" !== typeof default_route){
+            loadContent(
+                default_route,
+                unstashFilter()
+            );
         }
     });
-    
-});
-
-
-var loadContent = function (path) {
-    $('.progress').show();
-    $.ajaxSetup({
-        cache: false
-    });
-
-    $.get(path, $('form.filterable').serialize(), function (html) {
-        $('.progress').hide();
-        $('#content').html(html).trigger($.Event('propel-admin-content-load'));
-        $('.ajax_action').tomodal();
-    }, 'html');
-}
-$(document).on('submit', 'form.filterable', function (e) {
-    e.preventDefault();
-    loadContent($(this).attr('action'));
-});
-
-var linkToContent = function (el) {
-    var link = $(el).attr('href') ? $(el).attr('href') : $(el).data('href');
-    if (!el) return false;
-    loadContent(link);
-};
+})(jQuery);
 
 
 function assign_mass_action(route, alert_text, flush) {
