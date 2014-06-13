@@ -50,6 +50,10 @@ class UploadFileManager extends \Symfony\Component\DependencyInjection\Container
             } elseif (isset($form['delete_' . $column->getName()]) &&
                 ($form['delete_' . $column->getName()]->getData() === true)
             ) {
+				$current_file = $this->container->get('kernel')->getRootDir() . '/../web'.$column->getUploadPath().$item->{$getter}();
+				if (file_exists($current_file) === true ) {
+					unlink($current_file);
+				}
                 $item->{$setter}(null);
             } elseif (isset($default_values[$column->getName()])) {
                 $item->{$setter}($default_values[$column->getName()]);
