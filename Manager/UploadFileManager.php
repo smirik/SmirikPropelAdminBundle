@@ -47,7 +47,7 @@ class UploadFileManager extends \Symfony\Component\DependencyInjection\Container
                 $elem->move($this->container->get('kernel')->getRootDir() . '/../web'.$column->getUploadPath(), $new);
                 $item->{$setter}($new);
 
-            } elseif (isset($form['delete_' . $column->getName()] && $form['delete_'.$column->getName()]->getData()) &&
+            } elseif (isset($form['delete_' . $column->getName()]  && 
                 ($form['delete_' . $column->getName()]->getData() === true)
             ) {
 				$current_file = $this->container->get('kernel')->getRootDir() . '/../web'.$column->getUploadPath().$item->{$getter}();
